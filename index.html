@@ -1,83 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canguro Seguro</title>
-</head>
-<body>
-    <header>
-        <h1>Canguro Seguro</h1>
-        <nav>
-            <ul>
-                <li><img src="logo.png" alt="Logo"></li>
-                <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
-                <li><a href="Login.html">Entrar</a></li>
-                <li><a href="SingUp.html">Registrarme</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="Partes" id="inicio">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>  
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>  
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>
-    </div>
-    <hr>
-    <div class="Partes" id="sobreNosotros">
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt et harum, recusandae consequatur porro eveniet impedit, at ratione voluptate illo eius possimus doloremque temporibus cum quo repellat praesentium dolores inventore?</p>
-    </div>
-</body>
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-analytics.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-    
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCR5QgNysHAWi12xdVfBmuNNIWLWODi-KE",
-      authDomain: "canguroseguro-2a8c6.firebaseapp.com",
-      projectId: "canguroseguro-2a8c6",
-      storageBucket: "canguroseguro-2a8c6.appspot.com",
-      messagingSenderId: "365126972375",
-      appId: "1:365126972375:web:596c42bf8c0e8d3395d192",
-      measurementId: "G-9X0RPEWHMG"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    //const database = getDatabase(app);
-    const auth = getAuth();
-
-    //CREAR USUARIOS
-    var email = "cjimena05@gmail.com";
-    var password = "cjCV2005";
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-
-        set(ref(database, 'users/' + user.uid),{
-            username: username,
-            email: email
-        })
-
-        alert('user created!');
-        // ...
-        })
-        .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        alert(errorMessage);
-        // ..
-        });
-  </script>
-
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Canguro Seguro</title>
+    </head>
+    <body>
+        <header>
+            <h1>Canguro Seguro</h1>
+            <nav>
+                <ul>
+                    <li><img src="logo.png" alt="Logo"></li>
+                    <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
+                    <li><a href="Login.html">Entrar</a></li>
+                    <li><a href="SingUp.html">Registrarme</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="Partes" id="inicio">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>  
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>  
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos architecto, aperiam vero similique molestiae officia facere nostrum dicta et quasi quaerat nulla expedita officiis, porro magni non repellat fugiat debitis. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad ex obcaecati suscipit quidem iusto excepturi porro veritatis enim. Ullam distinctio facere similique nemo cupiditate illum harum dolorem impedit voluptas nobis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui tempore repudiandae consequuntur quas placeat eum corporis unde perspiciatis numquam quam, ipsum reprehenderit optio vero doloremque labore blanditiis, iste delectus ex!</p>
+        </div>
+        <hr>
+        <div class="Partes" id="sobreNosotros">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt et harum, recusandae consequatur porro eveniet impedit, at ratione voluptate illo eius possimus doloremque temporibus cum quo repellat praesentium dolores inventore?</p>
+        </div>
+    </body>
 </html>
