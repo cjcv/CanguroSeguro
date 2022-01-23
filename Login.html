@@ -22,11 +22,60 @@
             <div class="form">
             <form class="login-form">
                 <input type="email" placeholder="Correo electrónico"/>
-                <input type="password" placeholder="Contraseña"/>
+                <input type="pass" placeholder="Contraseña"/>
                 <button>Entrar</button>
                 <p class="message">¿No estas registrado? <a href="SingUp.html">Crear una cuenta</a></p>
             </form>
             </div>
         </div>
     </body>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js";
+        import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-database.js";
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+        const firebaseConfig = {
+        apiKey: "AIzaSyCR5QgNysHAWi12xdVfBmuNNIWLWODi-KE",
+        authDomain: "canguroseguro-2a8c6.firebaseapp.com",
+        projectId: "canguroseguro-2a8c6",
+        storageBucket: "canguroseguro-2a8c6.appspot.com",
+        messagingSenderId: "365126972375",
+        appId: "1:365126972375:web:596c42bf8c0e8d3395d192",
+        measurementId: "G-9X0RPEWHMG"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+        document.getElementById("send").onclick = function () {
+            var email = document.getElementById("mail").value;
+            var password = document.getElementById("pass").value;
+            
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+
+                    const starCountRef = ref(database, 'cliente/' + user.uid + '/cuidador');
+                    onValue(starCountRef, (snapshot) => {
+                        const data = snapshot.val();
+                        updateStarCount(postElement, data);
+                    });
+
+                    
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+
+                    alert(errorMessage);
+                });
+            }
+    </script>
 </html>
