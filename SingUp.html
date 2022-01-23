@@ -11,7 +11,7 @@
       <h1>Canguro Seguro</h1>
       <nav>
         <ul>
-          <li><img src="logo.png" alt="Logo"></li>
+          <li><a href="index.html"><img src="logo.png" alt="Logo"></a></li>
           <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
           <li><a href="Login.html">Entrar</a></li>
           <li><a href="SingUp.html">Registrarme</a></li>
@@ -20,15 +20,24 @@
     </header>
     <div class="login-page">
       <div class="form">
-        <form class="register-form">
+        <form class="basicRegister">
           <input id="mail" type="email" placeholder="Correo electrónico" required/>
-          <input id="user" type="text" placeholder="Nombre de usuario" required/>
+          <input id="nombre" type="text" placeholder="Nombre" required/>
           <input id="pass" type="password" placeholder="Contraseña" required/>
-          <input id="Familiar" type="radio" name="tipo"><label for="Familiar">Familiar</label>
-          <input id="Cuidador" type="radio" name="tipo"><label for="Cuidador">Cuidador</label>
-          
+          <input id="Familiar" type="radio" name="tipo" required><label for="Familiar">Familiar</label>
+          <input id="Cuidador" type="radio" name="tipo" required><label for="Cuidador">Cuidador</label>
+          <button type="button" id="siguiente">Siguiente</button>
+          <button class="message">¿Ya estas registrado? <a href="Login.html">Entrar</a></button>
+        </form>
+        <form id="cuidadorRegister">
+          <input id="curriculum" type="file" placeholder="Adjunta tu curriculum" required/>
+          <input type="text" placeholder="Cuentanos algo sobre ti" required>
+          <input type="checkbox" id="ProtecciónDatos" required><label for="ProtecciónDatos">Acepto la ley de protección de datos</label>
           <button id="send">Crear cuenta</button>
-          <p class="message">¿Ya estas registrado? <a href="Login.html">Entrar</a></p>
+        </form>
+        <form id="familiarRegister">
+          <input type="checkbox" id="ProtecciónDatos" required><label for="ProtecciónDatos">Acepto la ley de protección de datos</label>
+          <button id="send">Crear cuenta</button>
         </form>
       </div>
     </div>
@@ -40,6 +49,7 @@
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js";
+    import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-database.js";
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
@@ -54,21 +64,52 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    //const database = getDatabase(app);
+    const database = getDatabase(app);
     const auth = getAuth();
+
+    document.getElementById("siguiente").onclick = function () {
+      if (document.getElementsByName("tipo")[0].checked) {
+        document.getElementById("familiarRegister").style.display = "block";
+      }
+      else {
+        document.getElementById("cuidadorRegister").style.display = "block";
+      }
+    }
 
     document.getElementById("send").onclick = function () {
       //CREAR USUARIOS
       var email = document.getElementById("mail").value;
       var password = document.getElementById("pass").value;
-
+      var nombre = document.getElementById("nombre").value;
+      var tipo;
+      if (document.getElementsByName("tipo")[0].checked) {
+        tipo = "Familia";
+      }
+      else {
+        tipo = "Cuidador";
+      }
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
+          // Signed in 
 
-        alert('user created!');
-          document.body.innerHTML = "";
+          if (tipo == "Familia") {
+            set(ref(database, tipo + '/' + user.uid),{
+              nombre: nombre,
+              email: email
+            })
+          }
+          else {
+            set(ref(database, tipo + '/' + user.uid),{
+              indexable: false,
+              nombre: nombre,
+              email: email
+            })
+            set(ref(database, 'uDwfoTDFbaZYXI3qJHCHivbvdWx2/noIndexable/' + user.uid),{
+              usuario: user.uid
+            })
+            alert("En un plazo máximo de 24h publicaremos su perfil");
+            location.href="cuidador.html";
+          }
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -78,4 +119,12 @@
     }
   </script>
 
+  <style>
+    #cuidadorRegister {
+      display: none;
+    }
+    #familiarRegister {
+      display: none;
+    }
+  </style>
 </html>
