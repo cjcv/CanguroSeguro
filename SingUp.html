@@ -106,6 +106,9 @@
             email: email,
             username: nombre
           })
+          set(ref(database, 'cuidador/'),{
+            [user.uid]: true
+          })
           .then(function () {
             location.href = "Cuidador.html";
           });
