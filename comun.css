@@ -13,18 +13,18 @@ img {
     margin:auto;
 }
 
-
 ul {
     display: inline;
 }
+
 li {
     float: left;
-  }
-  
-  a {
+}
+
+a {
     display: block;
-    
-  }
+}
+
 #cine {
     background-image: url("Cine.jpg");
     width: auto;

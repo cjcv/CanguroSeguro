@@ -1,86 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canguro Seguro</title>
-</head>
-<body>
-    <header>
-        <h1>Canguro Seguro</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html"><img src="logo.png" alt="Logo"></a></li>
-                <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
-                <li><button>Salir</button></li>
-            </ul>
-        </nav>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Canguro Seguro</title>
+    </head>
+    <body>
+        <header>
+            <h1>Canguro Seguro</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><img src="ylogo.jpg" alt="Logo"></a></li>
+                    <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
+                    <li><button id="salir">Salir</button></li>
+                </ul>
+            </nav>
+            
+        </header>
+        <div class="chat">
+            <h2>Contactos</h2>
+            <ul id="Contactos"></ul>
+            <button id="nuevoChat">Nuevo Chat</button>
+        </div>
+        <div class="buscador">
+            <input type="text" placeholder="cuidador...">
+            <div id="TodosCuidadores"></div>
+        </div>
+    </body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js";
+        import { getDatabase, set, ref, update, onValue, push, onChildAdded, onChildChanged, onChildRemoved } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-database.js";
         
-    </header>
-    <main>
-        <article class="valoracion">
-            <section class="vestrellas">
+        const firebaseConfig = {
+            apiKey: "AIzaSyCR5QgNysHAWi12xdVfBmuNNIWLWODi-KE",
+            authDomain: "canguroseguro-2a8c6.firebaseapp.com",
+            databaseURL: "https://canguroseguro-2a8c6-default-rtdb.firebaseio.com",
+            projectId: "canguroseguro-2a8c6",
+            storageBucket: "canguroseguro-2a8c6.appspot.com",
+            messagingSenderId: "365126972375",
+            appId: "1:365126972375:web:596c42bf8c0e8d3395d192",
+            measurementId: "G-9X0RPEWHMG"
+        };
 
-            </section>
-            <section class="vporcentaje">
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
 
-            </section>
-        </article>
-        <article class="buscador">
+        var familiar = "cuidador";
+        var uid;
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                uid = user.uid;
+                const dbRef = ref(database, 'users/' + uid + '/tipo');
+                onValue(dbRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        if (snapshot.val() != "familiar") {
+                            location.href = "Cuidador.html";
+                        }
 
-        </article>
-        <aside class="chat">
-            <h2>Chat</h2>
-        </aside>
-    </main>
-</body>
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js";
-    import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-database.js";
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+                        var contacto = "users/" + uid + "/chats";
+                        var Contactos = document.getElementById("Contactos");
+                        const commentsRef = ref(database, contacto);
+                        onChildAdded(commentsRef, (data) => {
+                            Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
+                        });
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCR5QgNysHAWi12xdVfBmuNNIWLWODi-KE",
-        authDomain: "canguroseguro-2a8c6.firebaseapp.com",
-        databaseURL: "https://canguroseguro-2a8c6-default-rtdb.firebaseio.com",
-        projectId: "canguroseguro-2a8c6",
-        storageBucket: "canguroseguro-2a8c6.appspot.com",
-        messagingSenderId: "365126972375",
-        appId: "1:365126972375:web:596c42bf8c0e8d3395d192",
-        measurementId: "G-9X0RPEWHMG"
-    };
+                    } else {
+                        console.log("No data available");
+                    }
+                });
+            }
+            else {
+                location.href = "Login.html";
+            }
+        });
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/firebase.User
-            const uid = user.uid;
-            const user = userCredential.user;
-            const dbRef = ref(database);
-            get(child(dbRef, `users/${user.uid}`)).then((snapshot) => {
-                if (snapshot.exists()) {
-                    
-                } else {
-                    console.log("No data available");
-                }
+        document.getElementById("salir").onclick = function () {
+            signOut(auth).then(() => {
+            // Sign-out successful.
             }).catch((error) => {
-                console.error(error);
+            // An error happened.
             });
-        } else {
-            // User is signed out
-            // ...
-            location.href = "Login.html";
         }
-    });
-</script>
+        
+//CHAT
+        //var IrChat = document.getElementById("nuevoChat");
+        function IrChat() {
+            var existe = false;
+            const dbRef = ref(database, "users/" + uid + "/chats/" + familiar);
+            onValue(dbRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    existe = snapshot.val()
+                } else {
+                    
+                }
+            });
+
+            if (existe == false) {
+                set(ref(database, "chats/" + uid + familiar),{
+                    chat: true
+                })
+                set(ref(database, "users/" + uid + "/chats/" ),{
+                    [familiar]: familiar
+                })
+                set(ref(database, "users/" + familiar + "/chats/" ),{
+                    [uid]: uid
+                })
+            }
+
+            localStorage.setItem("Familiar", familiar);
+            localStorage.setItem("Tipo", "cuidador");
+            window.open('chat.html', '_blank')
+        }
+    </script>
 </html>

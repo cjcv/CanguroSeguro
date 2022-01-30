@@ -13,34 +13,26 @@
                 <ul>
                     <li><a href="index.html"><img src="ylogo.jpg" alt="Logo"></a></li>
                     <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
-                    <li><button>Salir</button></li>
+                    <li><button id="salir">Salir</button></li>
                 </ul>
             </nav>
             
         </header>
         <div class="chat">
-            <h2>Chat</h2>
-            <ul class="Contactos"></ul>
-            <ul id="Mensajes"></ul>
-            <input type="text" name="" id="nombre" placeholder="Usuario">
-            <input type="text" name="" id="areaMensaje" placeholder="Escribe un mensaje">
-            <button type="button" id="enviar">Enviar</button>
+            <h2>Contactos</h2>
+            <ul id="Contactos"></ul>
             <button id="nuevoChat">Nuevo Chat</button>
         </div>
         <div class="buscador">
             <input type="text" placeholder="cuidador...">
+            <div id="TodosCuidadores"></div>
         </div>
     </body>
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js";
         import { getDatabase, set, ref, update, onValue, push, onChildAdded, onChildChanged, onChildRemoved } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-database.js";
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
+        
         const firebaseConfig = {
             apiKey: "AIzaSyCR5QgNysHAWi12xdVfBmuNNIWLWODi-KE",
             authDomain: "canguroseguro-2a8c6.firebaseapp.com",
@@ -56,22 +48,27 @@
         const database = getDatabase(app);
         const auth = getAuth();
 
+        var cuidador = "cuidador";
         var cuidador;
         var uid;
-        var areaMensaje = document.getElementById("areaMensaje");
-        var mensajes = document.getElementById("Mensajes");
         
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
-                const dbRef = ref(database, `users/${user.uid}/tipo`);
+                uid = user.uid;
+                const dbRef = ref(database, 'users/' + uid + '/tipo');
                 onValue(dbRef, (snapshot) => {
                     if (snapshot.exists()) {
                         if (snapshot.val() != "familiar") {
                             location.href = "Cuidador.html";
                         }
-                        uid = user.uid;
+
+                        var contacto = "users/" + uid + "/chats";
+                        var Contactos = document.getElementById("Contactos");
+                        const commentsRef = ref(database, contacto);
+                        onChildAdded(commentsRef, (data) => {
+                            Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
+                        });
+
                     } else {
                         console.log("No data available");
                     }
@@ -81,13 +78,14 @@
                 location.href = "Login.html";
             }
         });
-        
-        var commentsRef = ref(database, "chats/" + uid + cuidador);
-        onChildAdded(commentsRef, (data) => {
-            console.log(data.val().mensaje);
-            //ddCommentElement(postElement, data.key, data.val().text, data.val().author);
-         
-        });
+
+        document.getElementById("salir").onclick = function () {
+            signOut(auth).then(() => {
+            // Sign-out successful.
+            }).catch((error) => {
+            // An error happened.
+            });
+        }
 
 //BUSCADOR
 /*
@@ -96,49 +94,40 @@
 */
         
 //CHAT
-        var nuevoChat = document.getElementById("nuevoChat");
-        nuevoChat.onclick = function () {
-            cuidador = "cuidador"//nuevoChat.value;
-            //var mensaje = areaMensaje.value;
-            //mensajes.innerHTML += "<li>"+mensaje+"</li>";
-            
-            set(ref(database, "chats/" + uid + cuidador),{
-                chat: true
-            })
-            set(ref(database, "users/" + uid + "/chats/" ),{
-                [cuidador]: true
-            })
-            set(ref(database, "users/" + cuidador + "/chats/" ),{
-                [uid]: true
-            })
-
-            
-        }
-
-        document.getElementById("enviar").onclick = function () {
-            const postListRef = ref(database, "chats/" + uid + cuidador);
-            const newPostRef = push(postListRef);
-            set(newPostRef, {
-                autor: "f",
-                mensaje: areaMensaje.value,
-                tiempo: Date.now()
+        //var IrChat = document.getElementById("nuevoChat");
+        function IrChat() {
+            var existe = false;
+            const dbRef = ref(database, "users/" + uid + "/chats/" + cuidador);
+            onValue(dbRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    existe = snapshot.val()
+                } else {
+                    
+                }
             });
-        }
 
-        
-    /*
-        ref(database, "chats/" + "8wpBqYW4AQUm1Qyi34N8kbZ69Te2" + "dYbUBMiDM7dFyJ4LJK0GuFiXiOK2").on("child_added", function (snapshot) {
-            const messages = snapshot.val();
-            console.log(messages);
+            if (existe == false) {
+                set(ref(database, "chats/" + uid + cuidador),{
+                    chat: true
+                })
+                set(ref(database, "users/" + uid + "/chats/" ),{
+                    [cuidador]: cuidador
+                })
+                set(ref(database, "users/" + cuidador + "/chats/" ),{
+                    [uid]: uid
+                })
+            }
+
+            localStorage.setItem("Cuidador", cuidador);
+            localStorage.setItem("Tipo", "familiar");
+            window.open('chat.html', '_blank')
+        }
+//BUSCAR
+        var cuidadores = "cuidador";
+        const commentsRef = ref(database, cuidadores);
+        const Contactos = document.getElementById("TodosCuidadores");
+        onChildAdded(commentsRef, (data) => {
+            Contactos.innerHTML += '<a onclick="IrChat();">' + data.val() + '</a>';
         });
-    */
-    /*
-        const postListRef = ref(database, 'users/');
-        const newPostRef = push(postListRef);
-        set(newPostRef, {
-            g: 1
-        });
-        console.log(newPostRef.key);
-    */
     </script>
 </html>
