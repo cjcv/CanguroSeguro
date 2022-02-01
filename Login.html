@@ -4,29 +4,30 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/jpg" href="logo.jpg"/>
         <title>Canguro Seguro</title>
     </head>
     <body>
         <header>
-            <h1>Canguro Seguro</h1>
+            <img src="logo.jpg" alt="Logo">
             <nav>
                 <ul>
-                    <li><a href="index.html"><img src="logo.png" alt="Logo"></a></li>
-                    <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
-                    <li><a href="Login.html">Entrar</a></li>
-                    <li><a href="SingUp.html">Registrarme</a></li>
+                    <li class="izquierda"><a href="index.html">Inicio</a></li>
+                    <li class="derecha"><a href="SingUp.html">Registrarme</a></li>
                 </ul>
             </nav>
         </header>
-        <div class="login-page">
-            <div class="form">
+        <div class="principal">
             <form class="login-form">
                 <input type="email" id="mail" placeholder="Correo electrónico"/>
-                <input type="password" id="pass" placeholder="Contraseña"/>
+                <br>
+                <br>
+                <input type="password" min="10" id="pass" placeholder="Contraseña"/>
+                <br>
+                <br>
                 <button type="button" id="login">Entrar</button>
                 <p class="message">¿No estas registrado? <a href="SingUp.html">Crear una cuenta</a></p>
             </form>
-            </div>
         </div>
     </body>
     <script type="module">
@@ -87,4 +88,129 @@
                
         }
     </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
+
+        * {
+            padding: 0px;
+            margin: 0px;
+            background-color: transparent;
+            text-align: center;
+            font-family: 'Zen Kurenaido', sans-serif;
+            color: white;
+        }
+        
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 400px;
+            display:block;
+            margin:auto;
+            border-radius: 1vw;
+        }
+
+        h2 {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .principal {
+            justify-content: center;
+        }
+
+        form {
+            width: min-content;
+            background-color: #39a7c9;
+            margin: 2vw;
+            border-radius: 2vw;
+            padding: 2vw;
+        }
+        
+        input {
+            font-size: 2vw;
+            color: black;
+            background-color: white;
+            border-radius: 5vw;
+        }
+        textarea {
+            color: black;
+        }
+        /*NAV BAR*/
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #39a7c9;
+        }
+
+        .derecha {
+            float: right;
+        }
+        
+        .izquierda {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #d0004c;
+        }
+        /**/
+
+        @media screen and (max-width: 900px) {
+            nav {
+                font-size: 3vw;
+            }
+            h2 {
+                font-size: 5vw;
+            }
+            p{
+                font-size: 3vw;
+            }
+            a {
+                font-size: 3vw;
+            }
+        }  
+
+        @media screen and (max-width: 430px) {
+            nav {
+                font-size: 15px;
+            }
+            h2 {
+                font-size: 7vw;
+            }
+            p{
+                font-size: 5vw;
+            }
+            a {
+                font-size: 20px;
+            }
+        }  
+
+        @media screen and (min-width: 901px) {
+            nav {
+                font-size: 25px;
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                border-bottom: 2px solid rgb(216, 216, 216);
+                border-radius: 0px;
+            }
+            h2 {
+                font-size: 55px;
+            }
+            p{
+                font-size: 30px;
+            }
+            a {
+                font-size: 20px;
+            }
+        }
+    </style>
 </html>
