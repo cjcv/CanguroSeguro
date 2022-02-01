@@ -8,44 +8,40 @@
   </head>
   <body>
     <header>
-      <h1>Canguro Seguro</h1>
       <nav>
+        <img src="logo.jpg" alt="Logo">
         <ul>
-          <li><a href="index.html"><img src="logo.png" alt="Logo"></a></li>
-          <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
-          <li><a href="Login.html">Entrar</a></li>
-          <li><a href="SingUp.html">Registrarme</a></li>
+          <li class="izquierda"><a href="index.html">Inicio</a></li>
+          <li class="derecha"><a href="SingUp.html">Entrar</a></li>
         </ul>
       </nav>
     </header>
-    <div class="login-page">
-      <div class="form">
-        <form id="basicRegister">
-          <input id="mail" type="email" placeholder="Correo electrónico" required/>
-          <input id="nombre" type="text" placeholder="Nombre" required/>
-          <input id="pass" type="password" placeholder="Contraseña" required/>
-          <input id="Familiar" type="radio" name="tipo" required><label for="Familiar">Familiar</label>
-          <input id="Cuidador" type="radio" name="tipo" required><label for="Cuidador">Cuidador</label>
-          <button type="button" id="siguiente">Siguiente</button>
-          <p class="message">¿Ya estas registrado? <a href="Login.html">Entrar</a></p>
-        </form>
-        <form id="cuidadorRegister">
-          <input id="curriculum" type="file" placeholder="Adjunta tu curriculum" required/>
-          <input type="text" placeholder="Cuentanos algo sobre ti" required>
-          <input type="checkbox" required><label for="ProtecciónDatos">Acepto la ley de protección de datos</label>
-          <button type="button" id="sendC">Crear cuenta</button>
-          <button type="button" id="atras1">Atras</button>
-        </form>
-        <form id="familiarRegister">
-          <input type="checkbox" required><label for="ProtecciónDatos">Acepto la ley de protección de datos</label>
-          <button type="button" id="sendF">Crear cuenta</button>
-          <button type="button" id="atras2">Atras</button>
-        </form>
-      </div>
+    <div class="principal">
+      <form id="basicRegister">
+        <input id="mail" type="email" placeholder="Correo electrónico" required/>
+        <br>
+        <br>
+        <input id="nombre" type="text" placeholder="Nombre" required/>
+        <br>
+        <br>
+        <input id="pass" type="password" placeholder="Contraseña" required/>
+        <br>
+        <br>
+        <input id="Familiar" class="radio" type="radio" name="tipo" required><label for="Familiar">Familiar</label>
+        <input id="Cuidador" class="radio" type="radio" name="tipo" required><label for="Cuidador">Cuidador</label>
+        <br>
+        <br>
+        <button type="button" id="siguiente">Siguiente</button>
+        <p class="message">¿Ya estas registrado? <a href="Login.html">Entrar</a></p>
+      </form>
     </div>
   </body>
 
   <script type="module">
+    if(document.body.innerHTML == null){
+      location.reload();
+    }
+
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
     // TODO: Add SDKs for Firebase products that you want to use
@@ -71,34 +67,22 @@
     const auth = getAuth();
 
     document.getElementById("siguiente").onclick = function () {
-      document.getElementById("basicRegister").style.display = "none";
       if (document.getElementsByName("tipo")[0].checked) {
-        document.getElementById("familiarRegister").style.display = "block";
+        sendF();
       }
       else {
-        document.getElementById("cuidadorRegister").style.display = "block";
+        sendC();
       }
     }
 
-    document.getElementById("atras1").onclick = function () {
-      document.getElementById("familiarRegister").style.display = "none";
-      document.getElementById("cuidadorRegister").style.display = "none";
-      document.getElementById("basicRegister").style.display = "block";
-    }
-
-    document.getElementById("atras2").onclick = function () {
-      document.getElementById("familiarRegister").style.display = "none";
-      document.getElementById("cuidadorRegister").style.display = "none";
-      document.getElementById("basicRegister").style.display = "block";
-    }
-
-    document.getElementById("sendC").onclick = function () {
+    function sendC() {
       var email = document.getElementById("mail").value;
       var password = document.getElementById("pass").value;
       var nombre = document.getElementById("nombre").value;
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in 
+          document.body.innerHTML = null;
           const user = userCredential.user;
           set(ref(database, 'users/' + user.uid),{
             tipo: "cuidador",
@@ -120,13 +104,14 @@
         });
     }
 
-    document.getElementById("sendF").onclick = function () {
+    function sendF() {
       var email = document.getElementById("mail").value;
       var password = document.getElementById("pass").value;
       var nombre = document.getElementById("nombre").value;
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in 
+          document.body.innerHTML = null;
           const user = userCredential.user;
           set(ref(database, 'users/' + user.uid),{
             tipo: "familiar",
@@ -146,12 +131,200 @@
     }
   </script>
 
-  <style>
-    #cuidadorRegister {
-      display: none;
-    }
-    #familiarRegister {
-      display: none;
-    }
-  </style>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
+
+  * {
+      padding: 0px;
+      margin: 0px;
+      background-color: transparent;
+      text-align: center;
+      font-family: 'Zen Kurenaido', sans-serif;
+      color: white;
+  }
+  
+  body {
+      -webkit-appearance: none;
+      -webkit-appearance: scrollbarbutton-up;
+  }
+
+  img {
+      width: 100%;
+      height: auto;
+      max-width: 400px;
+      display:block;
+      margin:auto;
+      border-radius: 1vw;
+  }
+
+  h2 {
+      font-family: 'Oswald', sans-serif;
+  } 
+
+  form {
+      width: min-content;
+      background-color: #39a7c9;
+      margin: 3vw;
+      border-radius: 2vw;
+      padding: 2vw;
+  }
+  
+  .principal {
+      display: inline-block;
+      align-content: center;
+      text-align: center;
+      align-items: center;
+  }
+  .principal a:hover {
+      color: #d0004c;
+  }
+  input {
+      border: 0.5vw solid  #d0004c;
+      color: black;
+      background-color: white;
+      border-radius: 5vw;
+      caret-color: gray;
+      
+  }
+
+  button {
+      border: 1vw solid #d0004c;
+      border-radius: 5vw;
+      padding: 2vw;
+  }
+
+  button:hover {
+      background-color: #d0004c;
+      color: white;
+  }
+
+  textarea {
+      color: black;
+  }
+  /*NAV BAR*/
+  ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #39a7c9;
+  }
+
+  .derecha {
+      float: right;
+      padding-right: 5vw;
+  }
+  
+  .izquierda {
+      float: left;
+      padding-left: 5vw;
+  }
+
+  li a {
+      display: block;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+  }
+
+  li a:hover {
+      background-color: #d0004c;
+  }
+  /*
+  input[type=radio] {
+    appearance: none;
+  }
+  input[type=radio]:checked+label:before {
+    color: #d0004c;
+    display: none;
+  }
+  #Cuidador {
+    float: right;
+  }
+  #Familiar {
+    float: left;
+  }
+  */
+  @media screen and (max-width: 900px) {
+      nav {
+          font-size: 3vw;
+      }
+      h2 {
+          font-size: 5vw;
+      }
+      p{
+          font-size: 3vw;
+      }
+      p a {
+          font-size: 3vw;
+      }
+      label{
+        font-size: 4vw;
+      }
+      input {
+          font-size: 3vw;
+      }
+      button {
+          font-size: 2vw;
+      }
+  }  
+
+  @media screen and (max-width: 450px) {
+      nav {
+          font-size: 15px;
+      }
+      h2 {
+          font-size: 7vw;
+      }
+      p{
+          font-size: 5vw;
+      }
+      p a {
+          font-size: 20px;
+      }
+
+      label {
+          font-size: 25px;
+      }
+
+      input {
+          font-size: 7vw;
+      }
+      button {
+          font-size: 7vw;
+      }
+  }  
+
+  @media screen and (min-width: 901px) {
+      nav {
+          font-size: 25px;
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0;
+          border-bottom: 2px solid rgb(216, 216, 216);
+          border-radius: 0px;
+      }
+      h2 {
+          font-size: 55px;
+      }
+      p{
+          font-size: 30px;
+      }
+      p a {
+          font-size: 20px;
+      }
+      label{
+        font-size: 30px;
+      }
+      input {
+          font-size: 40px;
+          border: 5px solid  #d0004c;
+      }
+      button {
+          font-size: 30px;
+          border: 8px solid  #d0004c;
+      }
+
+  }
+</style>
 </html>
