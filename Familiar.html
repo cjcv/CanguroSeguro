@@ -8,11 +8,10 @@
     </head>
     <body>
         <header>
-            <h1>Canguro Seguro</h1>
             <nav>
                 <ul>
                     <li class="izquierda">CANGURO SEGURO</li>
-                    <li class="derecha"><button id="salir">Salir</button></li>
+                    <li class="derecha"><a id="salir">Salir</a></li>
                 </ul>
             </nav>
         </header>
@@ -141,14 +140,13 @@
 
         body {
             -webkit-appearance: none;
-            -webkit-appearance: scrollbarbutton-up;
         }
 
         h2 {
             font-family: 'Oswald', sans-serif;
         }
 
-        article {
+        div {
             background-color: #39a7c9;
             margin: 2vw;
             border-radius: 1vw;
@@ -166,12 +164,16 @@
 
         .derecha {
             float: right;
+            padding-right: 5vw;
         }
         
         .izquierda {
             float: left;
+            padding-left: 5vw;
         }
-
+        li {
+            text-align: center;
+        }
         li a {
             display: block;
             text-align: center;
