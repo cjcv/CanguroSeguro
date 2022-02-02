@@ -64,7 +64,6 @@
                     // Signed in
                     const user = userCredential.user;
                     const dbRef = ref(database, `users/${user.uid}/tipo`);
-
                     onValue(dbRef, (snapshot) => {
                         if (snapshot.exists()) {
                             if (snapshot.val() == "familiar") {
@@ -99,10 +98,6 @@
             font-family: 'Zen Kurenaido', sans-serif;
             color: white;
         }
-        
-        body {
-            -webkit-appearance: none;
-        }
 
         img {
             width: 100%;
@@ -115,8 +110,7 @@
 
         h2 {
             font-family: 'Oswald', sans-serif;
-        } 
-
+        }
         
         .principal {
             display: inline-block;
@@ -132,6 +126,7 @@
             color: #d0004c;
         }
         input {
+            -webkit-padding-start: 0%;
             -webkit-appearance: textfield;
             border: 0.5vw solid  #d0004c;
             color: black;
@@ -218,7 +213,7 @@
                 font-size: 5vw;
             }
             p a {
-                font-size: 20px;
+                font-size: 1.5vw;
             }
             input {
                 font-size: 7vw;
