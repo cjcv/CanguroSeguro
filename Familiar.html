@@ -18,7 +18,6 @@
         <div class="chat">
             <h2>Contactos</h2>
             <ul id="Contactos"></ul>
-            <button id="nuevoChat">Nuevo Chat</button>
         </div>
         <div class="buscador">
             <input type="text" placeholder="cuidador...">
@@ -45,7 +44,7 @@
         const database = getDatabase(app);
         const auth = getAuth();
 
-        var cuidador = "cuidador";
+        //var cuidador;
         var uid;
         
         onAuthStateChanged(auth, (user) => {
@@ -64,7 +63,6 @@
                         onChildAdded(commentsRef, (data) => {
                             Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
                         });
-
                     } else {
                         console.log("No data available");
                     }
@@ -91,8 +89,10 @@
         
 //CHAT
         //var IrChat = document.getElementById("nuevoChat");
-        function IrChat() {
+        document.getElementsByClassName("chat").onclick = function (objButton) {
+            var cuidador = objButton.value;
             var existe = false;
+            console.log(cuidador);
             const dbRef = ref(database, "users/" + uid + "/chats/" + cuidador);
             onValue(dbRef, (snapshot) => {
                 if (snapshot.exists()) {
@@ -123,7 +123,7 @@
         const commentsRef = ref(database, cuidadores);
         const Contactos = document.getElementById("TodosCuidadores");
         onChildAdded(commentsRef, (data) => {
-            Contactos.innerHTML += '<a onclick="IrChat();">' + data.val() + '</a>';
+            Contactos.innerHTML += '<button class="chat" value="' + data.val() + '">' + data.val() + '</button>';
         });
     </script>
     <style>

@@ -28,6 +28,7 @@
             <div id="TodosCuidadores"></div>
         </div>
     </body>
+    
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js";
@@ -54,20 +55,52 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 uid = user.uid;
-                const dbRef = ref(database, 'users/' + uid + '/tipo');
+                const dbRef = ref(database, 'users/' + uid + '/indexable');
                 onValue(dbRef, (snapshot) => {
                     if (snapshot.exists()) {
-                        if (snapshot.val() != "familiar") {
-                            location.href = "Cuidador.html";
-                        }
+                        if (snapshot.val() == false) {
+                            document.body.innerHTML = '<body><p>En esta parte habria un proceso de 24h en el que Canguro Seguro evaluaria al cuidador, de ser seleccionado accederia a la siguiente pagina</p><button id="Selecionador">Continuar</button><input id="Enfermero" class="radio" type="radio" name="tipo" required><label for="Familiar">Enfermero</label><input id="Acompañante" class="radio" type="radio" name="tipo" required><label for="Cuidador">Acompañante</label><input id="Niñero" class="radio" type="radio" name="tipo" required><label for="Cuidador">Niñero</label></body>';
+                            document.getElementById("Selecionador").onclick = function () {
+                                //AQUI AÑADO A EL USUARIO COMO HIJO DE CUIDADOR Y CAMBIO EL INDEXABLE A TRUE
+                                const updates = {};
+                                updates["users/" + uid + "/indexable"] = true;
+                                update(ref(database), updates);
+                                var trabajoCheck = document.getElementsByName("tipo");
+                                var trabajo;
+                                for (let index = 0; index < 3; index++) {
+                                    if (trabajoCheck[index].checked) {
+                                        trabajo = trabajoCheck[index].id;
+                                        break;
+                                    }
+                                }
+                                
+                                const postListRef = ref(database, "cuidador");
+                                const newPostRef = push(postListRef);
+                                set(newPostRef, {
+                                    uid: uid,
+                                    trabajo: trabajo
+                                });
 
+                                location.reload();
+                            }
+                        }
+                    } else {
+                        console.log("No data available");
+                    }
+                });
+                
+                const db = ref(database, 'users/' + uid + '/tipo');
+                onValue(db, (snapshot) => {
+                    if (snapshot.exists()) {
+                        if (snapshot.val() == "familiar") {
+                            location.href = "Familiar.html";
+                        }
                         var contacto = "users/" + uid + "/chats";
                         var Contactos = document.getElementById("Contactos");
                         const commentsRef = ref(database, contacto);
                         onChildAdded(commentsRef, (data) => {
                             Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
                         });
-
                     } else {
                         console.log("No data available");
                     }
@@ -113,7 +146,7 @@
 
             localStorage.setItem("Familiar", familiar);
             localStorage.setItem("Tipo", "cuidador");
-            window.open('chat.html', '_blank')
+            window.open('chat.html', '_blank');
         }
     </script>
 </html>
