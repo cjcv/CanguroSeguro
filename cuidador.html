@@ -54,14 +54,17 @@
         
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                var username;
                 uid = user.uid;
                 const dbRef = ref(database, 'users/' + uid + '/indexable');
                 onValue(dbRef, (snapshot) => {
                     if (snapshot.exists()) {
                         if (snapshot.val() == false) {
-                            document.body.innerHTML = '<body><p>En esta parte habria un proceso de 24h en el que Canguro Seguro evaluaria al cuidador, de ser seleccionado accederia a la siguiente pagina</p><button id="Selecionador">Continuar</button><input id="Enfermero" class="radio" type="radio" name="tipo" required><label for="Familiar">Enfermero</label><input id="Acompañante" class="radio" type="radio" name="tipo" required><label for="Cuidador">Acompañante</label><input id="Niñero" class="radio" type="radio" name="tipo" required><label for="Cuidador">Niñero</label></body>';
+                            document.body.innerHTML = '<body><p>En esta parte habría un proceso de 24h en el que Canguro Seguro evaluaria al cuidador, de ser seleccionado accederia a la siguiente pagina</p><button id="Selecionador">Continuar</button><input id="Enfermero" class="radio" type="radio" name="tipo" required><label for="Familiar">Enfermero</label><input id="Acompañante" class="radio" type="radio" name="tipo" required><label for="Cuidador">Acompañante</label><input id="Niñero" class="radio" type="radio" name="tipo" required><label for="Cuidador">Niñero</label></body>';
                             document.getElementById("Selecionador").onclick = function () {
                                 //AQUI AÑADO A EL USUARIO COMO HIJO DE CUIDADOR Y CAMBIO EL INDEXABLE A TRUE
+                                
+                                
                                 const updates = {};
                                 updates["users/" + uid + "/indexable"] = true;
                                 update(ref(database), updates);
@@ -73,12 +76,18 @@
                                         break;
                                     }
                                 }
-                                
+
+                                const db = ref(database, 'users/' + uid + '/username');
+                                onValue(db, (snapshot) => {
+                                    username = snapshot.val(); 
+                                });
                                 const postListRef = ref(database, "cuidador");
                                 const newPostRef = push(postListRef);
                                 set(newPostRef, {
                                     uid: uid,
-                                    trabajo: trabajo
+                                    trabajo: trabajo,
+                                    username: username,
+                                    descripcion: "Descripción escrita por el personal de Canguro Seguro..."
                                 });
 
                                 location.reload();
@@ -99,7 +108,7 @@
                         var Contactos = document.getElementById("Contactos");
                         const commentsRef = ref(database, contacto);
                         onChildAdded(commentsRef, (data) => {
-                            Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
+                            Contactos.innerHTML += '<button onclick="IrChat()" value='+ data.val() +'>' + data.val() + '</button>';
                         });
                     } else {
                         console.log("No data available");
@@ -118,7 +127,6 @@
             // An error happened.
             });
         }
-        
 //CHAT
         //var IrChat = document.getElementById("nuevoChat");
         function IrChat() {

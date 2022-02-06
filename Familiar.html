@@ -20,7 +20,6 @@
             <ul id="Contactos"></ul>
         </div>
         <div class="buscador">
-            <input type="text" placeholder="cuidador...">
             <div id="TodosCuidadores"></div>
         </div>
     </body>
@@ -46,22 +45,27 @@
 
         //var cuidador;
         var uid;
-        
+        var username;
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 uid = user.uid;
-                const dbRef = ref(database, 'users/' + uid + '/tipo');
+                const dbRef = ref(database, 'users/' + uid);
                 onValue(dbRef, (snapshot) => {
                     if (snapshot.exists()) {
-                        if (snapshot.val() != "familiar") {
+                        if (snapshot.child('tipo').val() != "familiar") {
                             location.href = "Cuidador.html";
                         }
-
-                        var contacto = "users/" + uid + "/chats";
+                        username = snapshot.child('username').val();
+                        var referencia = "users/" + uid + "/chats";
                         var Contactos = document.getElementById("Contactos");
-                        const commentsRef = ref(database, contacto);
+                        const commentsRef = ref(database, referencia);
+
                         onChildAdded(commentsRef, (data) => {
-                            Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
+                            Contactos.innerHTML += '<button class="Chat">' + data.child('username').val() + '</button>';
+                            var i = data.child('username').val();
+                            var elements = document.getElementsByClassName("Chat");
+                            elements[index].addEventListener('click', function(){ IrChat(i);});
+                            index++;
                         });
                     } else {
                         console.log("No data available");
@@ -81,22 +85,16 @@
             });
         }
 
-//BUSCADOR
-/*
-        var filtro = "estrellas";
-        const cuidador = query(ref(database, 'user-posts/'), orderByChild(filtro));
-*/
-        
 //CHAT
-        //var IrChat = document.getElementById("nuevoChat");
-        document.getElementsByClassName("chat").onclick = function (objButton) {
-            var cuidador = objButton.value;
+        function IrChat(objButton) {
+            console.log("hkv");
+            var cuidador = objButton.child('uid').val();
             var existe = false;
             console.log(cuidador);
-            const dbRef = ref(database, "users/" + uid + "/chats/" + cuidador);
+            const dbRef = ref(database, "chats/" + uid + cuidador);
             onValue(dbRef, (snapshot) => {
                 if (snapshot.exists()) {
-                    existe = snapshot.val()
+                    existe = snapshot.val();
                 } else {
                     
                 }
@@ -106,24 +104,36 @@
                 set(ref(database, "chats/" + uid + cuidador),{
                     chat: true
                 })
-                set(ref(database, "users/" + uid + "/chats/" ),{
-                    [cuidador]: cuidador
-                })
-                set(ref(database, "users/" + cuidador + "/chats/" ),{
-                    [uid]: uid
-                })
+                const postListRef2 = ref(database, "users/" + uid + "/chats/");
+                const newPostRef2 = push(postListRef2);
+                set(newPostRef2, {
+                    uid: cuidador,
+                    username: objButton.child('username').val()
+                });
+                const postListRef = ref(database, "users/" + cuidador + "/chats/");
+                const newPostRef = push(postListRef);
+                set(newPostRef, {
+                    uid: uid,
+                    username: username
+                });
             }
 
             localStorage.setItem("Cuidador", cuidador);
             localStorage.setItem("Tipo", "familiar");
             window.open('chat.html', '_blank')
         }
-//BUSCAR
-        var cuidadores = "cuidador";
-        const commentsRef = ref(database, cuidadores);
+
+        //BUSCAR
+        const commentsRef = ref(database, "cuidador");
         const Contactos = document.getElementById("TodosCuidadores");
+        
+        var index = 0;
         onChildAdded(commentsRef, (data) => {
-            Contactos.innerHTML += '<button class="chat" value="' + data.val() + '">' + data.val() + '</button>';
+            var i = data;
+            Contactos.innerHTML += '<div><h3>' + data.child('username').val() + '</h3><p>' + data.child('descripcion').val() + '</p><button class="nuevoChat" value="' + i + '">Contactar</button></div>'
+            var elements = document.getElementsByClassName("nuevoChat");
+            elements[index].addEventListener('click', function(){ IrChat(i);});
+            index++;
         });
     </script>
     <style>
