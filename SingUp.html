@@ -67,64 +67,7 @@
     const auth = getAuth();
 
     document.getElementById("siguiente").onclick = function () {
-      if (document.getElementsByName("tipo")[0].checked) {
-        sendF();
-      }
-      else {
-        sendC();
-      }
-    }
-
-    function sendC() {
-      var email = document.getElementById("mail").value;
-      var password = document.getElementById("pass").value;
-      var nombre = document.getElementById("nombre").value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Signed in 
-          document.body.innerHTML = null;
-          const user = userCredential.user;
-          set(ref(database, 'users/' + user.uid),{
-            tipo: "cuidador",
-            indexable: false,
-            email: email,
-            username: nombre
-          })
-          .then(function () {
-            location.href = "Cuidador.html";
-          });
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          alert(errorMessage);
-        });
-    }
-
-    function sendF() {
-      var email = document.getElementById("mail").value;
-      var password = document.getElementById("pass").value;
-      var nombre = document.getElementById("nombre").value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Signed in 
-          document.body.innerHTML = null;
-          const user = userCredential.user;
-          set(ref(database, 'users/' + user.uid),{
-            tipo: "familiar",
-            email: email,
-            username: nombre
-          })
-          .then(function () {
-            location.href = "Familiar.html";
-          });
-          
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          alert(errorMessage);
-        });
+      alert("El usuario ha sido registrado");
     }
   </script>
 
