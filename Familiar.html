@@ -59,7 +59,7 @@
                         var referencia = "users/" + uid + "/chats";
                         var Contactos = document.getElementById("Contactos");
                         const commentsRef = ref(database, referencia);
-
+                        var index = 0;
                         onChildAdded(commentsRef, (data) => {
                             Contactos.innerHTML += '<button class="Chat">' + data.child('username').val() + '</button>';
                             var i = data.child('username').val();
@@ -89,7 +89,7 @@
         function IrChat(objButton) {
             console.log("hkv");
             var cuidador = objButton.child('uid').val();
-            var existe = false;
+            var existe = true;
             console.log(cuidador);
             const dbRef = ref(database, "chats/" + uid + cuidador);
             onValue(dbRef, (snapshot) => {
@@ -117,7 +117,7 @@
                     username: username
                 });
             }
-
+            
             localStorage.setItem("Cuidador", cuidador);
             localStorage.setItem("Tipo", "familiar");
             window.open('chat.html', '_blank')
@@ -132,7 +132,7 @@
             var i = data;
             Contactos.innerHTML += '<div><h3>' + data.child('username').val() + '</h3><p>' + data.child('descripcion').val() + '</p><button class="nuevoChat" value="' + i + '">Contactar</button></div>'
             var elements = document.getElementsByClassName("nuevoChat");
-            elements[index].addEventListener('click', function(){ IrChat(i);});
+            elements[index].addEventListener('click', function(){ IrChat(data);});
             index++;
         });
     </script>
