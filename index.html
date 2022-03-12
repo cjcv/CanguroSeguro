@@ -1,4 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
-   
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/jpg" href="logo.jpg" />
+        <title>Canguro Seguro</title>
+    </head>
+    <body>
+        <header>
+            <img src="logo.jpg" alt="Logo">
+        </header>
+        <main>
+            <nav>
+                <ul>
+                    <li><a href="index.html#nosotros" class="izquierda">¿Quienes somos?</a></li>
+                    <li><a href="index.html#niños" class="izquierda">Niños</a></li>
+                    <li><a href="index.html#ancianos" class="izquierda">Ancianos</a></li>
+                    <li><a href="index.html#trabaja" class="izquierda">Trabaja con nosotros</a></li>
+                    <li><a href="Login.html" class="derecha">Entrar</a></li>
+                    <li><a href="SingUp.html" class="derecha">Registrarme</a></li>
+                </ul>
+            </nav>
+            <section>
+                <article id="nosotros">
+                    <h2>CANGURO SEGURO</h2>
+                    <p>Somos una innovadora plataforma que busca ayudarte a encontrar a el cuidador ideal para tus seres queridos.</p>
+                </article>
+                <article id="niños">
+                    <h2>¿QUIERES IR AL CINE?</h2>
+                    <br>
+                    <img src="Cine.jpg" alt="">
+                    <br>
+                    <p>
+                        Ayudate eligiendo cualquiera de nuestras modalidades para el cuidado de niños:
+                    </p>
+                    <br>
+                    <ul class="opciones">
+                        <li>Aprender idiomas desde los niveles más básicos hasta la preparación de exámenes Cambridge.</li>
+                        <li>Clases particulares.</li>
+                        <li>Educación infantil.</li>
+                        <li>Organizador de sesiones de lectura y juegos didácticos para fomentar el desarrollo intelectual de los niños y entretenerlos.</li>
+                    </ul>
+                </article>
+                <article id="ancianos">
+                    <h2>PERSONAS MAYORES O DEPENDIENTES</h2>
+                    <br>
+                    <p>
+                        Para el cuidado de nuestras personas mayores o con discapacidad, tenemos dos modalidades:
+                    </p>
+                    <ul>
+                        <li class="opciones">
+                            <u style="color: #d0004c;">Acompañante</u>
+                            <br>
+                            Entretenimiento y ayuda básica a los adultos mayores aplicando distintas técnicas y permitiendo así que mejore su calidad de vida.
+                        </li>
+                        <br>
+                        <li class="opciones">
+                            <u style="color: #d0004c;">Enfermero</u>
+                            <br>
+                            Especialista en tratar con personas con discapacidad física o mental.
+                        </li>
+                    </ul>
+                </article>
+                <article id="camaras">
+                    <h2>CAMARAS</h2>
+                    <br>
+                    <p>Te damos la oportunidad de poder visualizar en tu hogar y en todo momento, a través de unas pequeñas cámaras de seguridad portátiles colocadas en las áreas de la casa donde se encuentre el cuidador.</p>    
+                </article>
+            </section>
+            <section>
+                <article id="trabaja">
+                    <h2>¿Quieres trabajar con nosotros?</h2>
+                    <br>
+                    <p>
+                        Ofrece tus servicios a miles de familias que se inscriben cada semana. Registrate para comenzar nuestro proceso de selección.
+                    </p>
+                </article>
+            </section>
+        </main>
+       
+        <footer>
+           
+        </footer>
+    </body>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
+
+        * {
+            padding: 0px;
+            margin: 0px;
+            background-color: transparent;
+            text-align: center;
+            font-family: 'Zen Kurenaido', sans-serif;
+            color: white;
+        }
+
+        body {
+            -webkit-appearance: none;
+            -webkit-appearance: scrollbarbutton-up;
+        }
+        
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 650px;
+            display:block;
+            margin:auto;
+            border-radius: 1vw;
+        }
+
+        h2 {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        article {
+            background-color: #39a7c9;
+            margin: 2vw;
+            border-radius: 1vw;
+            padding: 1vh;
+        }
+
+        /*NAV BAR*/
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #39a7c9;
+        }
+
+        .derecha {
+            float: right;
+        }
+        
+        .izquierda {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #d0004c;
+        }
+        /**/
+
+        li {
+            text-align: left;
+        }
+
+        @media screen and (max-width: 900px) {
+            .izquierda {
+                display: none;
+            }
+            nav {
+                font-size: 3vw;
+            }
+            h2 {
+                font-size: 5vw;
+            }
+            p{
+                font-size: 3vw;
+            }
+            .opciones{
+                font-size: 3vw;
+            }
+            a {
+                font-size: 3vw;
+            }
+        }  
+
+        @media screen and (max-width: 430px) {
+            .derecha {
+                float: none;
+            }
+            .izquierda {
+                display: none;
+            }
+            nav {
+                font-size: 15px;
+            }
+            h2 {
+                font-size: 7vw;
+            }
+            .opciones{
+                font-size: 4vw;
+            }
+            p{
+                font-size: 5vw;
+            }
+            a {
+                font-size: 20px;
+            }
+        }  
+
+        @media screen and (min-width: 901px) {
+            nav {
+                font-size: 25px;
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                border-bottom: 2px solid rgb(216, 216, 216);
+                border-radius: 0px;
+            }
+            h2 {
+                font-size: 55px;
+            }
+            .opciones{
+                font-size: 25px;
+            }
+            p{
+                font-size: 30px;
+            }
+            a {
+                font-size: 20px;
+            }
+        }
+    </style>
 </html>
