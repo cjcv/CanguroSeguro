@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Canguro Seguro</title>
+    </head>
+    <body>
+        <header>
+            <h1>Canguro Seguro</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><img src="ylogo.jpg" alt="Logo"></a></li>
+                    <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
+                    <li><button id="salir">Salir</button></li>
+                </ul>
+            </nav>
+            
+        </header>
+        <div class="chat">
+            <h2>Contactos</h2>
+            <ul id="Contactos"></ul>
+            <button id="nuevoChat">Nuevo Chat</button>
+        </div>
+        <div class="buscador">
+            <input type="text" placeholder="cuidador...">
+            <div id="TodosCuidadores"></div>
+        </div>
+    </body>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js";
+        import { getDatabase, set, ref, update, onValue, push, onChildAdded, onChildChanged, onChildRemoved } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-database.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCR5QgNysHAWi12xdVfBmuNNIWLWODi-KE",
+            authDomain: "canguroseguro-2a8c6.firebaseapp.com",
+            databaseURL: "https://canguroseguro-2a8c6-default-rtdb.firebaseio.com",
+            projectId: "canguroseguro-2a8c6",
+            storageBucket: "canguroseguro-2a8c6.appspot.com",
+            messagingSenderId: "365126972375",
+            appId: "1:365126972375:web:596c42bf8c0e8d3395d192",
+            measurementId: "G-9X0RPEWHMG"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+        var familiar = "cuidador";
+        var uid;
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                uid = user.uid;
+                const dbRef = ref(database, 'users/' + uid + '/indexable');
+                onValue(dbRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        if (snapshot.val() == false) {
+                            document.body.innerHTML = '<body><p>En esta parte habria un proceso de 24h en el que Canguro Seguro evaluaria al cuidador, de ser seleccionado accederia a la siguiente pagina</p><button id="Selecionador">Continuar</button><input id="Enfermero" class="radio" type="radio" name="tipo" required><label for="Familiar">Enfermero</label><input id="Acompañante" class="radio" type="radio" name="tipo" required><label for="Cuidador">Acompañante</label><input id="Niñero" class="radio" type="radio" name="tipo" required><label for="Cuidador">Niñero</label></body>';
+                            document.getElementById("Selecionador").onclick = function () {
+                                //AQUI AÑADO A EL USUARIO COMO HIJO DE CUIDADOR Y CAMBIO EL INDEXABLE A TRUE
+                                const updates = {};
+                                updates["users/" + uid + "/indexable"] = true;
+                                update(ref(database), updates);
+                                var trabajoCheck = document.getElementsByName("tipo");
+                                var trabajo;
+                                for (let index = 0; index < 3; index++) {
+                                    if (trabajoCheck[index].checked) {
+                                        trabajo = trabajoCheck[index].id;
+                                        break;
+                                    }
+                                }
+                                
+                                const postListRef = ref(database, "cuidador");
+                                const newPostRef = push(postListRef);
+                                set(newPostRef, {
+                                    uid: uid,
+                                    trabajo: trabajo
+                                });
+
+                                location.reload();
+                            }
+                        }
+                    } else {
+                        console.log("No data available");
+                    }
+                });
+                
+                const db = ref(database, 'users/' + uid + '/tipo');
+                onValue(db, (snapshot) => {
+                    if (snapshot.exists()) {
+                        if (snapshot.val() == "familiar") {
+                            location.href = "Familiar.html";
+                        }
+                        var contacto = "users/" + uid + "/chats";
+                        var Contactos = document.getElementById("Contactos");
+                        const commentsRef = ref(database, contacto);
+                        onChildAdded(commentsRef, (data) => {
+                            Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
+                        });
+                    } else {
+                        console.log("No data available");
+                    }
+                });
+            }
+            else {
+                location.href = "Login.html";
+            }
+        });
+
+        document.getElementById("salir").onclick = function () {
+            signOut(auth).then(() => {
+            // Sign-out successful.
+            }).catch((error) => {
+            // An error happened.
+            });
+        }
+        
+//CHAT
+        //var IrChat = document.getElementById("nuevoChat");
+        function IrChat() {
+            var existe = false;
+            const dbRef = ref(database, "users/" + uid + "/chats/" + familiar);
+            onValue(dbRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    existe = snapshot.val()
+                } else {
+                    
+                }
+            });
+
+            if (existe == false) {
+                set(ref(database, "chats/" + uid + familiar),{
+                    chat: true
+                })
+                set(ref(database, "users/" + uid + "/chats/" ),{
+                    [familiar]: familiar
+                })
+                set(ref(database, "users/" + familiar + "/chats/" ),{
+                    [uid]: uid
+                })
+            }
+
+            localStorage.setItem("Familiar", familiar);
+            localStorage.setItem("Tipo", "cuidador");
+            window.open('chat.html', '_blank');
+        }
+    </script>
+</html>
