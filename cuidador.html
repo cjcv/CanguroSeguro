@@ -8,10 +8,8 @@
     </head>
     <body>
         <header>
-            <h1>Canguro Seguro</h1>
             <nav>
                 <ul>
-                    <li><a href="index.html"><img src="ylogo.jpg" alt="Logo"></a></li>
                     <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
                     <li><button id="salir">Salir</button></li>
                 </ul>
@@ -149,4 +147,132 @@
             window.open('chat.html', '_blank');
         }
     </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
+
+        * {
+            padding: 0px;
+            margin: 0px;
+            background-color: transparent;
+            text-align: center;
+            font-family: 'Zen Kurenaido', sans-serif;
+            color: white;
+        }
+
+        body {
+            -webkit-appearance: none;
+        }
+
+        h2 {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        div {
+            background-color: #39a7c9;
+            margin: 2vw;
+            border-radius: 1vw;
+            padding: 1vh;
+        }
+        button {
+            border: 1vw solid #d0004c;
+            border-radius: 5vw;
+            padding: 2vw;
+        }
+
+        button:hover {
+            background-color: #d0004c;
+            color: white;
+        }
+        /*NAV BAR*/
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #39a7c9;
+        }
+
+        .derecha {
+            float: right;
+            padding-right: 5vw;
+        }
+        
+        .izquierda {
+            float: left;
+            padding-left: 5vw;
+        }
+        li {
+            text-align: center;
+        }
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #d0004c;
+        }
+        /**/
+
+        @media screen and (max-width: 900px) {
+            .izquierda {
+                display: none;
+            }
+            nav {
+                font-size: 3vw;
+            }
+            h2 {
+                font-size: 5vw;
+            }
+            p{
+                font-size: 3vw;
+            }
+            a {
+                font-size: 3vw;
+            }
+        }  
+
+        @media screen and (max-width: 430px) {
+            .derecha {
+                float: none;
+            }
+            .izquierda {
+                display: none;
+            }
+            nav {
+                font-size: 15px;
+            }
+            h2 {
+                font-size: 7vw;
+            }
+            p{
+                font-size: 5vw;
+            }
+            a {
+                font-size: 20px;
+            }
+        }  
+
+        @media screen and (min-width: 901px) {
+            nav {
+                font-size: 25px;
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                border-bottom: 2px solid rgb(216, 216, 216);
+                border-radius: 0px;
+            }
+            h2 {
+                font-size: 55px;
+            }
+            p{
+                font-size: 30px;
+            }
+            a {
+                font-size: 20px;
+            }
+        }
+    </style>
 </html>
