@@ -14,8 +14,8 @@
                     <li><button id="salir">Salir</button></li>
                 </ul>
             </nav>
-            
         </header>
+
         <div class="chat">
             <h2>Contactos</h2>
             <ul id="Contactos"></ul>
@@ -53,16 +53,15 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 uid = user.uid;
-                const dbRef = ref(database, 'users/' + uid + '/indexable');
+                const dbRef = ref(database, 'users/' + uid);
                 onValue(dbRef, (snapshot) => {
                     if (snapshot.exists()) {
-                        if (snapshot.val() == false) {
-                            document.body.innerHTML = '<body><p>En esta parte habria un proceso de 24h en el que Canguro Seguro evaluaria al cuidador, de ser seleccionado accederia a la siguiente pagina</p><button id="Selecionador">Continuar</button><input id="Enfermero" class="radio" type="radio" name="tipo" required><label for="Familiar">Enfermero</label><input id="Acompañante" class="radio" type="radio" name="tipo" required><label for="Cuidador">Acompañante</label><input id="Niñero" class="radio" type="radio" name="tipo" required><label for="Cuidador">Niñero</label></body>';
+                        if (snapshot.val().indexable == false) {
+                            document.body.innerHTML = '<body><p>En esta parte habria un proceso de 24h en el que Canguro Seguro evaluaria al cuidador, de ser seleccionado accederia a la siguiente pagina</p><button id="Selecionador">Continuar</button><input id="Enfermero" class="radio" type="radio" name="tipo" required><label for="Familiar">Enfermero</label><input id="Acompañante" class="radio" type="radio" name="tipo" required><label for="Cuidador">Acompañante</label><input id="Niñero" class="radio" type="radio" name="tipo" required><label for="Cuidador">Niñero</label><hr><input id="Santander" class="radio" type="radio" name="lugar" required><label for="Santander">Santander</label><input id="Madrid" class="radio" type="radio" name="lugar" required><label for="Madrid">Madrid</label><input id="Barcelona" class="radio" type="radio" name="lugar" required><label for="Barcelona">Barcelona</label></body>';
                             document.getElementById("Selecionador").onclick = function () {
                                 //AQUI AÑADO A EL USUARIO COMO HIJO DE CUIDADOR Y CAMBIO EL INDEXABLE A TRUE
-                                const updates = {};
-                                updates["users/" + uid + "/indexable"] = true;
-                                update(ref(database), updates);
+                                
+                                
                                 var trabajoCheck = document.getElementsByName("tipo");
                                 var trabajo;
                                 for (let index = 0; index < 3; index++) {
@@ -72,13 +71,30 @@
                                     }
                                 }
                                 
-                                const postListRef = ref(database, "cuidador");
-                                const newPostRef = push(postListRef);
+                                var ciudadCheck = document.getElementsByName("lugar");
+                                var lugar;
+                                for (let index = 0; index < 3; index++) {
+                                    if (ciudadCheck[index].checked) {
+                                        lugar = ciudadCheck[index].id;
+                                        break;
+                                    }
+                                }
+                                
+                                var username;
+                                
+
+                                var postListRef = ref(database, "cuidador" + "/" + lugar + "/" + trabajo);
+                                var newPostRef = push(postListRef);
                                 set(newPostRef, {
                                     uid: uid,
-                                    trabajo: trabajo
+                                    trabajo: trabajo,
+                                    lugar: lugar
+                                    //user: username
                                 });
 
+                                const updates = {};
+                                updates["users/" + uid + "/indexable"] = true;
+                                update(ref(database), updates);
                                 location.reload();
                             }
                         }
@@ -118,8 +134,7 @@
         }
         
 //CHAT
-        //var IrChat = document.getElementById("nuevoChat");
-        function IrChat() {
+        document.getElementById("nuevoChat").onclick = function () {
             var existe = false;
             const dbRef = ref(database, "users/" + uid + "/chats/" + familiar);
             onValue(dbRef, (snapshot) => {

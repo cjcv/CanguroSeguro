@@ -15,14 +15,32 @@
                 </ul>
             </nav>
         </header>
+        <div class="buscador">
+            <div class="filtro">
+                <input type="text" placeholder="nombre del cuidador...">
+    
+                <select id="ciudad">
+                    <option value="Santander">Santander</option>
+                    <option value="Madrid">Madrid</option>
+                    <option value="Barcelona">Barcelona</option>
+                </select>
+               
+                <select id="tipo">
+                    <option value="Enfermero">Enfermero</option>
+                    <option value="Niñero">Niñero</option>
+                    <option value="Cuidador">Cuidador</option>
+                </select>
+
+                <button type="button" id="buscar">BUSCAR</button>
+            </div>
+            
+            <div id="opciones"></div>
+        </div>
         <div class="chat">
             <h2>Contactos</h2>
             <ul id="Contactos"></ul>
         </div>
-        <div class="buscador">
-            <input type="text" placeholder="cuidador...">
-            <div id="TodosCuidadores"></div>
-        </div>
+        
     </body>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
@@ -81,11 +99,6 @@
             });
         }
 
-//BUSCADOR
-/*
-        var filtro = "estrellas";
-        const cuidador = query(ref(database, 'user-posts/'), orderByChild(filtro));
-*/
         
 //CHAT
         //var IrChat = document.getElementById("nuevoChat");
@@ -119,12 +132,17 @@
             window.open('chat.html', '_blank')
         }
 //BUSCAR
-        var cuidadores = "cuidador";
-        const commentsRef = ref(database, cuidadores);
-        const Contactos = document.getElementById("TodosCuidadores");
-        onChildAdded(commentsRef, (data) => {
-            Contactos.innerHTML += '<button class="chat" value="' + data.val() + '">' + data.val() + '</button>';
-        });
+        const Contactos = document.getElementById("opciones");
+        var listaCiudad = document.getElementById("ciudad");
+        var listaTipos = document.getElementById("tipo");
+        document.getElementById("buscar").onclick = function () {
+            const commentsRef = ref(database, "cuidador/" + listaCiudad.value + "/" + listaTipos.value);
+            Contactos.innerHTML = '';
+            onChildAdded(commentsRef, (data) => {
+                Contactos.innerHTML += '<div value="' + data.val().uid + '"><h2>' + data.val().username + '</h2> <button class="chat" value="' + data.val().uid + '">' + data.val().trabajo + '</button></div>';
+            });
+        }
+        
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
