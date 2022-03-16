@@ -81,15 +81,23 @@
                                 }
                                 
                                 var username;
-                                
+                                const d2b = ref(database, 'users/' + uid + '/username');
+                                onValue(d2b, (snapshot) => {
+                                    if (snapshot.exists()) {
+                                        username = snapshot.val()
+                                    } else {
+                                        console.log("No data available");
+                                    }
+                                });
 
                                 var postListRef = ref(database, "cuidador" + "/" + lugar + "/" + trabajo);
                                 var newPostRef = push(postListRef);
                                 set(newPostRef, {
                                     uid: uid,
                                     trabajo: trabajo,
-                                    lugar: lugar
-                                    //user: username
+                                    lugar: lugar,
+                                    username: username,
+                                    descripcion: "Hola! soy una cuenta de prueba de Canguro Seguro"
                                 });
 
                                 const updates = {};
