@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Canguro Seguro</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li class="izquierda">CANGURO SEGURO</li>
+                    <li class="derecha"><a id="salir">Salir</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="buscador">
+            <div class="filtro">
+                <select id="ciudad">
+                    <option value="Santander">Santander</option>
+                    <option value="Madrid">Madrid</option>
+                    <option value="Barcelona">Barcelona</option>
+                </select>
+               
+                <select id="tipo">
+                    <option value="Enfermero">Enfermero</option>
+                    <option value="Niñero">Niñero</option>
+                    <option value="Cuidador">Cuidador</option>
+                    <option value="Educador">Educador</option>
+                </select>
+
+                <button type="button" id="buscar">BUSCAR</button>
+            </div>
+            
+            <div id="opciones"></div>
+        </div>
+        <div class="chat">
+            <h2>Contactos</h2>
+            <ul id="Contactos"></ul>
+        </div>
+        
+    </body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js";
+        import { getDatabase, set, ref, update, onValue, push, onChildAdded, onChildChanged, onChildRemoved } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-database.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCR5QgNysHAWi12xdVfBmuNNIWLWODi-KE",
+            authDomain: "canguroseguro-2a8c6.firebaseapp.com",
+            databaseURL: "https://canguroseguro-2a8c6-default-rtdb.firebaseio.com",
+            projectId: "canguroseguro-2a8c6",
+            storageBucket: "canguroseguro-2a8c6.appspot.com",
+            messagingSenderId: "365126972375",
+            appId: "1:365126972375:web:596c42bf8c0e8d3395d192",
+            measurementId: "G-9X0RPEWHMG"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+        //var cuidador;
+        var uid;
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                uid = user.uid;
+                const dbRef = ref(database, 'users/' + uid + '/tipo');
+                onValue(dbRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        if (snapshot.val() != "familiar") {
+                            location.href = "Cuidador.html";
+                        }
+
+                        var contacto = "users/" + uid + "/chats";
+                        var Contactos = document.getElementById("Contactos");
+                        const commentsRef = ref(database, contacto);
+                        onChildAdded(commentsRef, (data) => {
+                            Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
+                        });
+                    } else {
+                        console.log("No data available");
+                    }
+                });
+            }
+            else {
+                location.href = "Login.html";
+            }
+        });
+
+        document.getElementById("salir").onclick = function () {
+            signOut(auth).then(() => {
+            // Sign-out successful.
+            }).catch((error) => {
+            // An error happened.
+            });
+        }
+
+        
+//CHAT
+        //var IrChat = document.getElementById("nuevoChat");
+        
+        const Contactos = document.getElementById("opciones");
+        var listaCiudad = document.getElementById("ciudad");
+        var listaTipos = document.getElementById("tipo");
+        var seleccionCuidadores = document.getElementById("opciones");
+
+        document.getElementById("buscar").onclick = function () {
+            
+            const commentsRef = ref(database, "cuidador/" + listaCiudad.value + "/" + listaTipos.value);
+            Contactos.innerHTML = '';
+            onChildAdded(commentsRef, (data) => {
+                var div = document.createElement("div");
+                div.innerHTML = "<h2>" + data.val().username + "</h2>";
+                var btn = document.createElement("button");
+                
+                btn.type = "button";
+
+                btn.onclick = function () {
+                    var cuidador = data.val().uid;
+                    var existe = false;
+                    console.log(cuidador);
+                    const dbRef = ref(database, "users/" + uid + "/chats/" + cuidador);
+                    
+                    onValue(dbRef, (snapshot) => {
+                        if (snapshot.exists()) {
+                            existe = snapshot.val()
+                        } else {
+                            
+                        }
+                    });
+
+                    if (existe == false) {
+                        set(ref(database, "chats/" + uid + cuidador),{
+                            chat: true
+                        })
+                        set(ref(database, "users/" + uid + "/chats/" ),{
+                            [cuidador]: cuidador
+                        })
+                        set(ref(database, "users/" + cuidador + "/chats/" ),{
+                            [uid]: uid
+                        })
+                    }
+
+                    localStorage.setItem("Cuidador", cuidador);
+                    localStorage.setItem("Tipo", "familiar");
+                    window.open('chat.html', '_blank');
+                }
+        
+                div.appendChild(btn);
+                seleccionCuidadores.appendChild(div);
+            });
+        }
+        
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
+
+        * {
+            padding: 0px;
+            margin: 0px;
+            background-color: transparent;
+            text-align: center;
+            font-family: 'Zen Kurenaido', sans-serif;
+            color: white;
+        }
+
+        body {
+            -webkit-appearance: none;
+        }
+
+        h2 {
+            font-family: 'Oswald', sans-serif;
+        }
+
+        div {
+            background-color: #39a7c9;
+            margin: 2vw;
+            border-radius: 1vw;
+            padding: 1vh;
+        }
+        button {
+            border: 1vw solid #d0004c;
+            border-radius: 5vw;
+            padding: 2vw;
+        }
+
+        button:hover {
+            background-color: #d0004c;
+            color: white;
+        }
+        /*NAV BAR*/
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #39a7c9;
+        }
+
+        .derecha {
+            float: right;
+            padding-right: 5vw;
+        }
+        
+        .izquierda {
+            float: left;
+            padding-left: 5vw;
+        }
+        li {
+            text-align: center;
+        }
+        li a {
+            display: block;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #d0004c;
+        }
+        /**/
+
+        @media screen and (max-width: 900px) {
+            .izquierda {
+                display: none;
+            }
+            nav {
+                font-size: 3vw;
+            }
+            h2 {
+                font-size: 5vw;
+            }
+            p{
+                font-size: 3vw;
+            }
+            a {
+                font-size: 3vw;
+            }
+        }  
+
+        @media screen and (max-width: 430px) {
+            .derecha {
+                float: none;
+            }
+            .izquierda {
+                display: none;
+            }
+            nav {
+                font-size: 15px;
+            }
+            h2 {
+                font-size: 7vw;
+            }
+            p{
+                font-size: 5vw;
+            }
+            a {
+                font-size: 20px;
+            }
+        }  
+
+        @media screen and (min-width: 901px) {
+            nav {
+                font-size: 25px;
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                border-bottom: 2px solid rgb(216, 216, 216);
+                border-radius: 0px;
+            }
+            h2 {
+                font-size: 55px;
+            }
+            p{
+                font-size: 30px;
+            }
+            a {
+                font-size: 20px;
+            }
+        }
+    </style>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CHAT</title>
+    </head>
+    <body>
+        <div id="Mensajes"></div>
+        <div>
+            <div contentEditable="true" id="entradaTexto"></div>
+            <button type="button" id="enviar">Enviar</button>
+        </div>
+    </body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-auth.js";
+        import { getDatabase, set, ref, update, onValue, push, onChildAdded, orderByChild } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCR5QgNysHAWi12xdVfBmuNNIWLWODi-KE",
+            authDomain: "canguroseguro-2a8c6.firebaseapp.com",
+            databaseURL: "https://canguroseguro-2a8c6-default-rtdb.firebaseio.com",
+            projectId: "canguroseguro-2a8c6",
+            storageBucket: "canguroseguro-2a8c6.appspot.com",
+            messagingSenderId: "365126972375",
+            appId: "1:365126972375:web:596c42bf8c0e8d3395d192",
+            measurementId: "G-9X0RPEWHMG"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth();
+
+        var cuidador = localStorage.getItem("Cuidador");
+        var entradaTexto = document.getElementById("entradaTexto");
+        var tipo = localStorage.getItem("Tipo");
+        var uid;
+        var conversacion = "chats/" + uid + cuidador;
+        var Mensajes = document.getElementById("Mensajes");
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                uid = user.uid;
+            }
+            else {
+                window.close();
+            }
+        });
+
+        document.getElementById("enviar").onclick = function () {
+            if (entradaTexto.textContent.length > 0 ) {
+                const postListRef = ref(database, conversacion);
+                const newPostRef = push(postListRef);
+                set(newPostRef, {
+                    autor: "f",
+                    mensaje: entradaTexto.textContent,
+                    tiempo: Date.now()
+                });
+
+                entradaTexto.textContent = "";
+            }
+        }
+
+        const commentsRef = ref(database, conversacion);
+        onChildAdded(commentsRef, (data) => {
+            if (data.val().autor == tipo) {
+                Mensajes.innerHTML += '<li style="color:blue;">'+data.val().mensaje+'</li>';
+            }
+            else {
+                Mensajes.innerHTML += '<li style="color:red;">'+data.val().mensaje+'</li>';
+            }
+        });
+    </script>
+</html>

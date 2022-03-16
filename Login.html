@@ -56,7 +56,35 @@
         const auth = getAuth();
     
         document.getElementById("login").onclick = function () {
-            alert("El usuario ha entrado");
+            var email = document.getElementById("mail").value;
+            var password = document.getElementById("pass").value;
+            
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user;
+                    const dbRef = ref(database, `users/${user.uid}/tipo`);
+                    onValue(dbRef, (snapshot) => {
+                        if (snapshot.exists()) {
+                            if (snapshot.val() == "familiar") {
+                                location.href = "Familiar.html";
+                            }
+                            else{
+                                location.href = "Cuidador.html";
+                            }
+                            console.log(snapshot.val());
+                        } else {
+                            console.log("No data available");
+                        }
+                    });
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                });
+            
+            // ...
+               
         }
     </script>
     <style>
@@ -105,12 +133,9 @@
             background-color: white;
             border-radius: 5vw;
             caret-color: gray;
-            padding: 0%;
+            
         }
 
-        textarea{
-            padding: 0%;
-        }
         button {
             border: 1vw solid #d0004c;
             border-radius: 5vw;
