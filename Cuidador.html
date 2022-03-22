@@ -10,8 +10,8 @@
         <header>
             <nav>
                 <ul>
-                    <li><a href="index.html#sobreNosotros">Sobre nosotros</a></li>
-                    <li><button id="salir">Salir</button></li>
+                    <li class="izquierda">CANGURO SEGURO</li>
+                    <li class="derecha"><a id="salir">Salir</a></li>
                 </ul>
             </nav>
         </header>
@@ -19,11 +19,10 @@
         <div class="chat">
             <h2>Contactos</h2>
             <ul id="Contactos"></ul>
-            <button id="nuevoChat">Nuevo Chat</button>
         </div>
-        <div class="buscador">
-            <input type="text" placeholder="cuidador...">
-            <div id="TodosCuidadores"></div>
+        <div>
+            <h2>Opiniones</h2>
+            <ul id="Opiniones"></ul>
         </div>
     </body>
     
@@ -59,9 +58,7 @@
                         if (snapshot.val().indexable == false) {
                             document.body.innerHTML = '<body><p>En esta parte habria un proceso de 24h en el que Canguro Seguro evaluaria al cuidador, de ser seleccionado accederia a la siguiente pagina</p><button id="Selecionador">Continuar</button><input id="Enfermero" class="radio" type="radio" name="tipo" required><label for="Familiar">Enfermero</label><input id="Acompañante" class="radio" type="radio" name="tipo" required><label for="Cuidador">Acompañante</label><input id="Niñero" class="radio" type="radio" name="tipo" required><label for="Cuidador">Niñero</label><hr><input id="Santander" class="radio" type="radio" name="lugar" required><label for="Santander">Santander</label><input id="Madrid" class="radio" type="radio" name="lugar" required><label for="Madrid">Madrid</label><input id="Barcelona" class="radio" type="radio" name="lugar" required><label for="Barcelona">Barcelona</label></body>';
                             document.getElementById("Selecionador").onclick = function () {
-                                //AQUI AÑADO A EL USUARIO COMO HIJO DE CUIDADOR Y CAMBIO EL INDEXABLE A TRUE
-                                
-                                
+                            
                                 var trabajoCheck = document.getElementsByName("tipo");
                                 var trabajo;
                                 for (let index = 0; index < 3; index++) {
@@ -99,7 +96,8 @@
                                     username: username,
                                     descripcion: "Hola! soy una cuenta de prueba de Canguro Seguro",
                                     valoracion1: 100,
-                                    valoracion2: 4
+                                    valoracion2: 4,
+                                    opiniones: "Este cuidador todavía no tinen reseñas"
                                 });
 
                                 const updates = {};
@@ -119,15 +117,38 @@
                         if (snapshot.val() == "familiar") {
                             location.href = "Familiar.html";
                         }
-                        var contacto = "users/" + uid + "/chats";
+
+                        var contacto = "users/" + uid;
                         var Contactos = document.getElementById("Contactos");
-                        const commentsRef = ref(database, contacto);
+                        const commentsRef = ref(database, contacto + "/chats");
                         onChildAdded(commentsRef, (data) => {
-                            Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
+                            var btn = document.createElement("button");
+                            btn.type = "button";
+                            btn.textContent = data.val().username;
+                            btn.onclick = function () {
+                                localStorage.setItem("Cuidador", data.val().uid);
+                                localStorage.setItem("Tipo", "familiar");
+                                window.open('chat.html', '_blank');
+                            }
+                            Contactos.appendChild(btn);
                         });
-                    } else {
+//OPINIONES
+                        var Opiniones = document.getElementById("Opiniones");
+                        const commentsRef2 = ref(database, contacto + "/opiniones");
+                        onChildAdded(commentsRef2, (data) => {
+                            var txt = document.createElement("p");
+                            txt.textContent = data.val();
+                            
+                            Opiniones.appendChild(txt);
+                        });
+
+                    } 
+                    else {
                         console.log("No data available");
                     }
+
+
+                    
                 });
             }
             else {
@@ -143,34 +164,7 @@
             });
         }
         
-//CHAT
-        document.getElementById("nuevoChat").onclick = function () {
-            var existe = false;
-            const dbRef = ref(database, "users/" + uid + "/chats/" + familiar);
-            onValue(dbRef, (snapshot) => {
-                if (snapshot.exists()) {
-                    existe = snapshot.val()
-                } else {
-                    
-                }
-            });
 
-            if (existe == false) {
-                set(ref(database, "chats/" + uid + familiar),{
-                    chat: true
-                })
-                set(ref(database, "users/" + uid + "/chats/" ),{
-                    [familiar]: familiar
-                })
-                set(ref(database, "users/" + familiar + "/chats/" ),{
-                    [uid]: uid
-                })
-            }
-
-            localStorage.setItem("Familiar", familiar);
-            localStorage.setItem("Tipo", "cuidador");
-            window.open('chat.html', '_blank');
-        }
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
