@@ -7,7 +7,7 @@
         <title>CHAT</title>
     </head>
     <body>
-        <div id="Mensajes"></div>
+        <ul id="Mensajes"></ul>
         <div>
             <div contentEditable="true" id="entradaTexto"></div>
             <button type="button" id="enviar">Enviar</button>
@@ -65,12 +65,43 @@
 
         const commentsRef = ref(database, conversacion);
         onChildAdded(commentsRef, (data) => {
+            var msg = document.createElement("li");
+            msg.textContent = data.val().mensaje;
             if (data.val().autor == tipo) {
-                Mensajes.innerHTML += '<li style="color:blue;">'+data.val().mensaje+'</li>';
+                msg.className = "tuMensaje";
             }
             else {
-                Mensajes.innerHTML += '<li style="color:red;">'+data.val().mensaje+'</li>';
+                msg.className = "miMensaje";
             }
+            Mensajes.appendChild(msg);
         });
     </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
+        * {
+            padding: 0px;
+            margin: 0px;
+            background-color: transparent;
+            text-align: center;
+            font-family: 'Zen Kurenaido', sans-serif;
+            color: white;
+        }
+
+        body {
+            -webkit-appearance: none;
+        }
+        
+        ul {
+            height: 50%;
+        }
+        
+        .miMensaje {
+            text-align: right;
+            color: red;
+        }
+        .tuMensaje {
+            text-align: left;
+            color: blue;
+        }
+    </style>
 </html>

@@ -63,7 +63,7 @@
 
         //var cuidador;
         var uid;
-        
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 uid = user.uid;
@@ -78,7 +78,15 @@
                         var Contactos = document.getElementById("Contactos");
                         const commentsRef = ref(database, contacto);
                         onChildAdded(commentsRef, (data) => {
-                            Contactos.innerHTML += '<button onclick="IrChat();" value='+ data.val() +'>' + data.val() + '</button>';
+                            var btn = document.createElement("button");
+                            btn.type = "button";
+                            btn.textContent = data.val().username;
+                            btn.onclick = function () {
+                                localStorage.setItem("Cuidador", data.val().uid);
+                                localStorage.setItem("Tipo", "familiar");
+                                window.open('chat.html', '_blank');
+                            }
+                            Contactos.appendChild(btn);
                         });
                     } else {
                         console.log("No data available");
@@ -136,11 +144,19 @@
                         set(ref(database, "chats/" + uid + cuidador),{
                             chat: true
                         })
+                        /*
                         set(ref(database, "users/" + uid + "/chats/" ),{
                             [cuidador]: cuidador
                         })
-                        set(ref(database, "users/" + cuidador + "/chats/" ),{
-                            [uid]: uid
+                        */
+                        set(ref(database, 'users/' + uid + "/chats/" + cuidador),{
+                            uid: cuidador,
+                            username: data.val().username
+                        })
+
+                        set(ref(database, "users/" + cuidador + "/chats/" + uid),{
+                            uid: uid
+                            //aqui falta para poner el nombre del familiarz
                         })
                     }
 
