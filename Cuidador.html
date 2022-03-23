@@ -126,7 +126,8 @@
                             btn.type = "button";
                             btn.textContent = data.val().username;
                             btn.onclick = function () {
-                                localStorage.setItem("Cuidador", data.val().uid);
+                                localStorage.setItem("Familiar", data.val().uid);
+                                localStorage.setItem("Cuidador", uid);
                                 localStorage.setItem("Tipo", "familiar");
                                 window.open('chat.html', '_blank');
                             }
@@ -146,9 +147,6 @@
                     else {
                         console.log("No data available");
                     }
-
-
-                    
                 });
             }
             else {
@@ -163,8 +161,6 @@
             // An error happened.
             });
         }
-        
-
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');

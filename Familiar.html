@@ -83,6 +83,7 @@
                             btn.textContent = data.val().username;
                             btn.onclick = function () {
                                 localStorage.setItem("Cuidador", data.val().uid);
+                                localStorage.setItem("Familiar", uid);
                                 localStorage.setItem("Tipo", "familiar");
                                 window.open('chat.html', '_blank');
                             }
@@ -105,11 +106,8 @@
             // An error happened.
             });
         }
-
         
 //CHAT
-        //var IrChat = document.getElementById("nuevoChat");
-        
         const Contactos = document.getElementById("opciones");
         var listaCiudad = document.getElementById("ciudad");
         var listaTipos = document.getElementById("tipo");
@@ -122,6 +120,7 @@
             onChildAdded(commentsRef, (data) => {
                 var div = document.createElement("div");
                 div.innerHTML = "<h2>" + data.val().username + "</h2>";
+                div.innerHTML += "<p>" + data.val().descripcion + "</p>";
                 var btn = document.createElement("button");
                 
                 btn.type = "button";
@@ -129,7 +128,6 @@
                 btn.onclick = function () {
                     var cuidador = data.val().uid;
                     var existe = false;
-                    console.log(cuidador);
                     const dbRef = ref(database, "users/" + uid + "/chats/" + cuidador);
                     
                     onValue(dbRef, (snapshot) => {
@@ -144,11 +142,6 @@
                         set(ref(database, "chats/" + uid + cuidador),{
                             chat: true
                         })
-                        /*
-                        set(ref(database, "users/" + uid + "/chats/" ),{
-                            [cuidador]: cuidador
-                        })
-                        */
                         set(ref(database, 'users/' + uid + "/chats/" + cuidador),{
                             uid: cuidador,
                             username: data.val().username
