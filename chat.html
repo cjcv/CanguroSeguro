@@ -10,7 +10,7 @@
         <ul id="Mensajes"></ul>
         <div>
             <div contentEditable="true" id="entradaTexto"></div>
-            <button type="button" id="enviar">Enviar</button>
+            <button type="button" id="enviar"><a href="entradaTexto">Enviar</a></button>
         </div>
     </body>
     <script type="module">
@@ -59,7 +59,6 @@
                     mensaje: entradaTexto.textContent,
                     tiempo: Date.now()
                 });
-
                 entradaTexto.textContent = "";
             }
         }
