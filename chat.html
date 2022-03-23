@@ -40,6 +40,7 @@
         var conversacion = "chats/" + uid + cuidador;
         var Mensajes = document.getElementById("Mensajes");
 
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 uid = user.uid;
@@ -54,7 +55,7 @@
                 const postListRef = ref(database, conversacion);
                 const newPostRef = push(postListRef);
                 set(newPostRef, {
-                    autor: "f",
+                    autor: tipo,
                     mensaje: entradaTexto.textContent,
                     tiempo: Date.now()
                 });
@@ -67,7 +68,7 @@
         onChildAdded(commentsRef, (data) => {
             var msg = document.createElement("li");
             msg.textContent = data.val().mensaje;
-            if (data.val().autor == tipo) {
+            if (data.val().autor == "f") {
                 msg.className = "tuMensaje";
             }
             else {
@@ -79,7 +80,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
         * {
-            padding: 0px;
+            padding: 10px;
             margin: 0px;
             background-color: transparent;
             text-align: center;

@@ -84,7 +84,7 @@
                             btn.onclick = function () {
                                 localStorage.setItem("Cuidador", data.val().uid);
                                 localStorage.setItem("Familiar", uid);
-                                localStorage.setItem("Tipo", "familiar");
+                                localStorage.setItem("Tipo", "f");
                                 window.open('chat.html', '_blank');
                             }
                             Contactos.appendChild(btn);
@@ -149,7 +149,6 @@
 
                         set(ref(database, "users/" + cuidador + "/chats/" + uid),{
                             uid: uid
-                            //aqui falta para poner el nombre del familiarz
                         })
                     }
 
