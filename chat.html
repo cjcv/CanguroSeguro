@@ -12,7 +12,9 @@
         </div>
         <div class="caja">
             <div contentEditable="true" id="entradaTexto"></div>
+            <button type="button" id="contratar" onclick="alert('Funcion no disponible')">Contratar</button>
             <button type="button" id="enviar"><a href="entradaTexto">Enviar</a></button>
+           
         </div>
     </body>
     <script type="module">
@@ -98,7 +100,7 @@
         }
         
         .miMensaje {
-            display: block;
+            
             text-align: right;
             color: white;
             width: min-content;
@@ -110,7 +112,6 @@
            
         }
         .tuMensaje {
-            display: block;
             text-align: left;
             color: white;
             width: min-content;
@@ -155,7 +156,7 @@
             color: black;
         }
         button {
-            
+            display: inline;
             border: 1vw solid #d0004c;
             border-radius: 5vw;
             margin: 2vw;
