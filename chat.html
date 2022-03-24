@@ -7,8 +7,10 @@
         <title>CHAT</title>
     </head>
     <body>
-        <ul id="Mensajes"></ul>
-        <div>
+        <div id="Mensajes">
+            <ul></ul>
+        </div>
+        <div class="caja">
             <div contentEditable="true" id="entradaTexto"></div>
             <button type="button" id="enviar"><a href="entradaTexto">Enviar</a></button>
         </div>
@@ -62,7 +64,7 @@
                 entradaTexto.textContent = "";
             }
         }
-
+        var scroll = document.getElementById("Mensajes");
         const commentsRef = ref(database, conversacion);
         onChildAdded(commentsRef, (data) => {
             var msg = document.createElement("li");
@@ -74,56 +76,97 @@
                 msg.className = "miMensaje";
             }
             Mensajes.appendChild(msg);
+            scroll.scrollTo(0, scroll.scrollHeight);
         });
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
         * {
-            padding: 10px;
+            padding: 0px;
             margin: 0px;
             background-color: transparent;
             text-align: center;
             font-family: 'Zen Kurenaido', sans-serif;
             color: white;
+            font-size: 20px;
+            list-style-type: none;
         }
 
-        body {
-            -webkit-appearance: none;
-        }
         
         ul {
             height: 50%;
         }
         
         .miMensaje {
+            display: block;
             text-align: right;
-            color: red;
+            color: white;
+            width: min-content;
+            margin: 1vw;
+            right: 0;
+            border: 1vw solid #d0004c;
+            border-radius: 1vw;
+            background-color: #d0004c;
+           
         }
         .tuMensaje {
+            display: block;
             text-align: left;
-            color: blue;
+            color: white;
+            width: min-content;
+            margin: 1vw;
+
+            
+            border: 1vw solid #306E81;
+            border-radius: 1vw;
+            background-color: #306E81;
         }
 
         #entradaTexto {
-            -webkit-padding-start: 0%;
-            
             border: 0.5vw solid  #d0004c;
             color: black;
             background-color: white;
             border-radius: 5vw;
-            caret-color: gray;
+            caret-color: rgb(255, 255, 255);
+            height: 30%;
+            padding: 1%;
         }
 
+        body,html{
+            height:100%; /*Siempre es necesario cuando trabajamos con alturas*/
+        }
+        .caja {
+            height: 30%;
+            width: 100%;
+            background-color: white;
+            position:absolute; 
+            bottom:0vh; 
+            right: 0;
+            left: 0;
+            z-index:0;
+        }
+
+        #Mensajes {
+            height: 70%;
+            width: 100%;
+            overflow-y: scroll;
+        }
+        a {
+            color: black;
+        }
         button {
+            
             border: 1vw solid #d0004c;
             border-radius: 5vw;
-            padding: 2vw;
+            margin: 2vw;
+            width: 20%;
+            height: 40%;
         }
 
         button:hover {
             background-color: #d0004c;
             color: white;
         }
+</style>
 
-    </style>
 </html>
