@@ -25,7 +25,6 @@
             </nav>
             <section>
                 <article id="nosotros">
-                    <h2>CANGURO SEGURO</h2>
                     <p>Somos una innovadora plataforma que busca ayudarte a encontrar a el cuidador ideal para tus seres queridos.</p>
                 </article>
                 <article id="niños">
@@ -82,7 +81,16 @@
         </main>
        
         <footer>
-           
+            <hr>
+            <h3>PREGUNTAS Y AYUDA</h3>
+            <a href="mailto:info@canguroseguro.es">info@canguroseguro.es</a>
+            <a href="tel:+34111111111">Llamanos: 111 111 111</a>
+            <br>
+            <h3>síguenos</h3>
+            <br>
+            <a href="http://"><img src="Insta.jpg" alt=""></a>
+            <br>
+            <br>
         </footer>
     </body>
 
@@ -95,11 +103,13 @@
             background-color: transparent;
             text-align: center;
             font-family: 'Zen Kurenaido', sans-serif;
-            color: white;
+            color: rgb(160, 160, 160);
+            -webkit-appearance:none;
         }
 
         body {
             -webkit-appearance: none;
+            appearance: none;
             -webkit-appearance: scrollbarbutton-up;
         }
         
@@ -117,19 +127,22 @@
         }
 
         article {
-            background-color: #306E81;
             margin: 2vw;
             border-radius: 1vw;
             padding: 1vh;
         }
 
         /*NAV BAR*/
+        nav {
+            
+            background-color: #306E81;
+        }
         ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #306E81;
+            
         }
 
         .derecha {
@@ -141,6 +154,7 @@
         }
 
         li a {
+            color: white;
             display: block;
             text-align: center;
             padding: 14px 16px;
@@ -154,6 +168,11 @@
 
         li {
             text-align: left;
+        }
+
+        a img {
+            height: 7vw;
+            width: auto;
         }
 
         @media screen and (max-width: 900px) {
