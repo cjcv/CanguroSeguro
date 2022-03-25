@@ -5,6 +5,149 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Canguro Seguro</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
+    
+            * {
+                padding: 0px;
+                margin: 0px;
+                background-color: transparent;
+                text-align: center;
+                font-family: 'Zen Kurenaido', sans-serif;
+                color: rgb(121, 121, 121);
+            }
+    
+            body {
+                -webkit-appearance: none;
+            }
+    
+            h2 {
+                font-family: 'Oswald', sans-serif;
+            }
+            hr{
+                border: 0.01vw solid #306E81;
+            }
+            div {
+                margin: 2vw;
+                
+                border-radius: 3vw;
+
+                padding: 1vh;
+            }
+            .buscador {
+                border: 1vw solid #306E81;
+                color: #d0004c;
+            }
+            .chat {
+                border: 1vw solid #306E81;
+            }
+            button {
+                border: 1vw solid #d0004c;
+                border-radius: 5vw;
+                padding: 2vw;
+            }
+    
+            button:hover {
+                background-color: #d0004c;
+                color: white;
+            }
+            /*NAV BAR*/
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #306E81;
+            }
+            #Contactos{
+                background-color: transparent;
+            }
+            
+            .derecha {
+                float: right;
+                padding-right: 5vw;
+            }
+            
+            .izquierda {
+                float: left;
+                padding-left: 5vw;
+            }
+            li {
+                text-align: center;
+                color: white;
+            }
+            li a {
+                display: block;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                color: white;
+            }
+    
+            li a:hover {
+                background-color: #d0004c;
+            }
+            /**/
+    
+            @media screen and (max-width: 900px) {
+                .izquierda {
+                    display: none;
+                }
+                nav {
+                    font-size: 3vw;
+                }
+                h2 {
+                    font-size: 5vw;
+                }
+                p{
+                    font-size: 3vw;
+                }
+                a {
+                    font-size: 3vw;
+                }
+            }  
+    
+            @media screen and (max-width: 430px) {
+                .derecha {
+                    float: none;
+                }
+                .izquierda {
+                    display: none;
+                }
+                nav {
+                    font-size: 15px;
+                }
+                h2 {
+                    font-size: 7vw;
+                }
+                p{
+                    font-size: 5vw;
+                }
+                a {
+                    font-size: 20px;
+                }
+            }  
+    
+            @media screen and (min-width: 901px) {
+                nav {
+                    font-size: 25px;
+                    position: -webkit-sticky;
+                    position: sticky;
+                    top: 0;
+                    border-bottom: 2px solid rgb(216, 216, 216);
+                    border-radius: 0px;
+                }
+                h2 {
+                    font-size: 55px;
+                }
+                p{
+                    font-size: 30px;
+                }
+                a {
+                    font-size: 20px;
+                }
+            }
+        </style>
     </head>
     <body>
         <header>
@@ -15,6 +158,11 @@
                 </ul>
             </nav>
         </header>
+        <div class="chat">
+            <h2>Contactos</h2>
+            <br>
+            <ul id="Contactos"></ul>
+        </div>
         <div class="buscador">
             <div class="filtro">
                 <select id="ciudad">
@@ -22,7 +170,6 @@
                     <option value="Madrid">Madrid</option>
                     <option value="Barcelona">Barcelona</option>
                 </select>
-               
                 <select id="tipo">
                     <option value="Enfermero">Enfermero</option>
                     <option value="Niñero">Niñero</option>
@@ -32,13 +179,10 @@
 
                 <button type="button" id="buscar">BUSCAR</button>
             </div>
-            
+            <hr>
             <div id="opciones"></div>
         </div>
-        <div class="chat">
-            <h2>Contactos</h2>
-            <ul id="Contactos"></ul>
-        </div>
+        
         
     </body>
     <script type="module">
@@ -63,7 +207,7 @@
 
         //var cuidador;
         var uid;
-
+        
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 uid = user.uid;
@@ -105,7 +249,6 @@
             }).catch((error) => {
             // An error happened.
             });
-            Storage.clear();
         }
         
 //CHAT
@@ -125,7 +268,8 @@
                 var btn = document.createElement("button");
                 
                 btn.type = "button";
-
+                btn.textContent = "chat";
+                
                 btn.onclick = function () {
                     var cuidador = data.val().uid;
                     var existe = false;
@@ -154,142 +298,20 @@
                     }
 
                     localStorage.setItem("Cuidador", cuidador);
+                    localStorage.setItem("Familiar", uid);
                     localStorage.setItem("Tipo", "f");
                     window.open('chat.html', '_blank');
                 }
         
                 div.appendChild(btn);
+                var p = document.createElement("p");
+                p.textContent = "Este usuario aún no ha sido valorado";
+                div.appendChild(p);
+                div.appendChild(document.createElement("hr"));
                 seleccionCuidadores.appendChild(div);
             });
         }
         
     </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
-
-        * {
-            padding: 0px;
-            margin: 0px;
-            background-color: transparent;
-            text-align: center;
-            font-family: 'Zen Kurenaido', sans-serif;
-            color: white;
-        }
-
-        body {
-            -webkit-appearance: none;
-        }
-
-        h2 {
-            font-family: 'Oswald', sans-serif;
-        }
-
-        div {
-            background-color: #39a7c9;
-            margin: 2vw;
-            border-radius: 1vw;
-            padding: 1vh;
-        }
-        button {
-            border: 1vw solid #d0004c;
-            border-radius: 5vw;
-            padding: 2vw;
-        }
-
-        button:hover {
-            background-color: #d0004c;
-            color: white;
-        }
-        /*NAV BAR*/
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #39a7c9;
-        }
-
-        .derecha {
-            float: right;
-            padding-right: 5vw;
-        }
-        
-        .izquierda {
-            float: left;
-            padding-left: 5vw;
-        }
-        li {
-            text-align: center;
-        }
-        li a {
-            display: block;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        li a:hover {
-            background-color: #d0004c;
-        }
-        /**/
-
-        @media screen and (max-width: 900px) {
-            .izquierda {
-                display: none;
-            }
-            nav {
-                font-size: 3vw;
-            }
-            h2 {
-                font-size: 5vw;
-            }
-            p{
-                font-size: 3vw;
-            }
-            a {
-                font-size: 3vw;
-            }
-        }  
-
-        @media screen and (max-width: 430px) {
-            .derecha {
-                float: none;
-            }
-            .izquierda {
-                display: none;
-            }
-            nav {
-                font-size: 15px;
-            }
-            h2 {
-                font-size: 7vw;
-            }
-            p{
-                font-size: 5vw;
-            }
-            a {
-                font-size: 20px;
-            }
-        }  
-
-        @media screen and (min-width: 901px) {
-            nav {
-                font-size: 25px;
-                position: -webkit-sticky;
-                position: sticky;
-                top: 0;
-                border-bottom: 2px solid rgb(216, 216, 216);
-                border-radius: 0px;
-            }
-            h2 {
-                font-size: 55px;
-            }
-            p{
-                font-size: 30px;
-            }
-            a {
-                font-size: 20px;
-            }
-        }
-    </style>
+    
 </html>

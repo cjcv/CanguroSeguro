@@ -5,6 +5,102 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CHAT</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
+            * {
+                padding: 0px;
+                margin: 0px;
+                background-color: transparent;
+                text-align: center;
+                font-family: 'Zen Kurenaido', sans-serif;
+                color: white;
+                font-size: 20px;
+                list-style-type: none;
+            }
+    
+            
+            ul {
+                height: 50%;
+            }
+            
+            .miMensaje {
+                
+                text-align: right;
+                color: white;
+                
+                margin: 1vw;
+                right: 0;
+                border: 1vw solid #d0004c;
+                border-radius: 1vw;
+                background-color: #d0004c;
+               
+            }
+            .tuMensaje {
+                text-align: left;
+                color: white;
+                
+                margin: 1vw;
+    
+                
+                border: 1vw solid #306E81;
+                border-radius: 1vw;
+                background-color: #306E81;
+            }
+    
+            #entradaTexto {
+                border: 0.5vw solid  #d0004c;
+                color: black;
+                background-color: white;
+                border-radius: 5vw;
+                caret-color: rgb(255, 255, 255);
+                height: 30%;
+                padding: 1%;
+            }
+    
+            body,html{
+                height:100%; /*Siempre es necesario cuando trabajamos con alturas*/
+            }
+            .caja {
+                height: 30%;
+                width: 100%;
+                background-color: white;
+                position:absolute; 
+                bottom:0vh; 
+                right: 0;
+                left: 0;
+                z-index:0;
+                color: black;
+            }
+    
+            #Mensajes {
+                height: 70%;
+                width: 100%;
+                overflow-y: scroll;
+            }
+            
+            p{
+                color: black;
+            }
+            button {
+                display: inline;
+                border: 1vw solid #d0004c;
+                border-radius: 5vw;
+                margin: 2vw;
+                width: 20%;
+                height: 40%;
+            }
+    
+            button:hover {
+                background-color: #d0004c;
+                color: white;
+            }
+            button:hover a {
+                color: white;
+            }
+            button:hover p {
+                color: white;
+            }
+        </style>
     </head>
     <body>
         <div id="Mensajes">
@@ -13,7 +109,7 @@
         <div class="caja">
             <div contentEditable="true" id="entradaTexto"></div>
             <button type="button" id="contratar" onclick="alert('Funcion no disponible')"><p>Contratar</p></button>
-            <button type="button" id="enviar"><a href="entradaTexto">Enviar</a></button>
+            <button type="button" id="enviar"><p>Enviar</p></button>
            
         </div>
     </body>
@@ -81,103 +177,6 @@
             scroll.scrollTo(0, scroll.scrollHeight);
         });
     </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
-        * {
-            padding: 0px;
-            margin: 0px;
-            background-color: transparent;
-            text-align: center;
-            font-family: 'Zen Kurenaido', sans-serif;
-            color: white;
-            font-size: 20px;
-            list-style-type: none;
-        }
-
-        
-        ul {
-            height: 50%;
-        }
-        
-        .miMensaje {
-            
-            text-align: right;
-            color: white;
-            width: min-content;
-            margin: 1vw;
-            right: 0;
-            border: 1vw solid #d0004c;
-            border-radius: 1vw;
-            background-color: #d0004c;
-           
-        }
-        .tuMensaje {
-            text-align: left;
-            color: white;
-            width: min-content;
-            margin: 1vw;
-
-            
-            border: 1vw solid #306E81;
-            border-radius: 1vw;
-            background-color: #306E81;
-        }
-
-        #entradaTexto {
-            border: 0.5vw solid  #d0004c;
-            color: black;
-            background-color: white;
-            border-radius: 5vw;
-            caret-color: rgb(255, 255, 255);
-            height: 30%;
-            padding: 1%;
-        }
-
-        body,html{
-            height:100%; /*Siempre es necesario cuando trabajamos con alturas*/
-        }
-        .caja {
-            height: 30%;
-            width: 100%;
-            background-color: white;
-            position:absolute; 
-            bottom:0vh; 
-            right: 0;
-            left: 0;
-            z-index:0;
-            color: black;
-        }
-
-        #Mensajes {
-            height: 70%;
-            width: 100%;
-            overflow-y: scroll;
-        }
-        a {
-            color: black;
-        }
-        p{
-            color: black;
-        }
-        button {
-            display: inline;
-            border: 1vw solid #d0004c;
-            border-radius: 5vw;
-            margin: 2vw;
-            width: 20%;
-            height: 40%;
-        }
-
-        button:hover {
-            background-color: #d0004c;
-            color: white;
-        }
-        button:hover a {
-            color: white;
-        }
-        button:hover p {
-            color: white;
-        }
-</style>
+    
 
 </html>

@@ -7,6 +7,172 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/jpg" href="logo.jpg" />
         <title>Canguro Seguro</title>
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
+    
+            * {
+                padding: 0px;
+                margin: 0px;
+                background-color: transparent;
+                text-align: center;
+                font-family: 'Zen Kurenaido', sans-serif;
+                color: rgb(109, 109, 109);
+                -webkit-appearance:none;
+            }
+    
+            body {
+                -webkit-appearance: none;
+                appearance: none;
+                -webkit-appearance: scrollbarbutton-up;
+            }
+            
+            img {
+                width: 100%;
+                height: auto;
+                max-width: 550px;
+                display:block;
+                margin:auto;
+                border-radius: 1vw;
+            }
+    
+            hgroup{
+                color: #306E81;
+            }
+    
+            h2 {
+                font-family: 'Oswald', sans-serif;
+                color: #306E81;
+            }
+    
+            p {
+                text-align: center;
+            }
+    
+            article {
+                margin: 2vw;
+                border-radius: 1vw;
+                padding: 1vh;
+            }
+    
+            /*NAV BAR*/
+            nav {
+                
+                background-color: #306E81;
+            }
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                
+            }
+    
+            .derecha {
+                float: right;
+            }
+            
+            .izquierda {
+                float: left;
+            }
+    
+    
+            li a {
+                color: white;
+                display: block;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+    
+            li a:hover {
+                background-color: #C92D61;
+            }
+            /**/
+    
+            li {
+                text-align: left;
+            }
+    
+            a img {
+                height: 7vw;
+                width: auto;
+            }
+    
+            @media screen and (max-width: 900px) {
+                img {
+                    max-width: 400px;
+                }
+                .izquierda {
+                    display: none;
+                }
+                nav {
+                    font-size: 3vw;
+                }
+                h2 {
+                    font-size: 5vw;
+                }
+                p{
+                    font-size: 3vw;
+                }
+                .opciones{
+                    font-size: 3vw;
+                }
+                a {
+                    font-size: 3vw;
+                }
+            }  
+    
+            @media screen and (max-width: 430px) {
+                img {
+                    display: none;
+                }
+                .derecha {
+                    float: none;
+                }
+                .izquierda {
+                    display: none;
+                }
+                nav {
+                    font-size: 15px;
+                }
+                h2 {
+                    font-size: 7vw;
+                }
+                .opciones{
+                    font-size: 4vw;
+                }
+                p{
+                    font-size: 5vw;
+                }
+                a {
+                    font-size: 20px;
+                }
+            }  
+    
+            @media screen and (min-width: 901px) {
+                nav {
+                    font-size: 25px;
+                    position: -webkit-sticky;
+                    position: sticky;
+                    top: 0;
+                    border-bottom: 2px solid rgb(216, 216, 216);
+                    border-radius: 0px;
+                }
+                h2 {
+                    font-size: 55px;
+                }
+                .opciones{
+                    font-size: 25px;
+                }
+                p{
+                    font-size: 30px;
+                }
+                a {
+                    font-size: 20px;
+                }
+            }
+        </style>
     </head>
     <body>
         <header>
@@ -25,7 +191,7 @@
             </nav>
             <section>
                 <article id="nosotros">
-                    <p>Somos una innovadora plataforma que busca ayudarte a encontrar a el cuidador ideal para tus seres queridos.</p>
+                    <p>Somos una innovadora plataforma que busca ayudarte a encontrar a <br>el cuidador ideal para tus seres queridos.</p>
                 </article>
                 <article id="niños">
                     <h2>¿QUIERES IR AL CINE?</h2>
@@ -37,10 +203,10 @@
                     </p>
                     <br>
                     <ul class="opciones">
-                        <li>Aprender idiomas desde los niveles más básicos hasta la preparación de exámenes Cambridge.</li>
-                        <li>Clases particulares.</li>
-                        <li>Educación infantil.</li>
-                        <li>Organizador de sesiones de lectura y juegos didácticos para fomentar el desarrollo intelectual de los niños y entretenerlos.</li>
+                        <li><b style="color: #d0004c;">  - </b>Aprender idiomas desde los niveles más básicos hasta la preparación de exámenes Cambridge.</li>
+                        <li><b style="color: #d0004c;">  - </b>Clases particulares.</li>
+                        <li><b style="color: #d0004c;">  - </b>Educación infantil.</li>
+                        <li><b style="color: #d0004c;">  - </b>Organizador de sesiones de lectura y juegos didácticos para fomentar el desarrollo intelectual de los niños y entretenerlos.</li>
                     </ul>
                 </article>
                 <article id="ancianos">
@@ -64,9 +230,11 @@
                     </ul>
                 </article>
                 <article id="camaras">
-                    <h2>CAMARAS</h2>
+                    <h2>CÁMARAS</h2>
                     <br>
-                    <p>Te damos la oportunidad de poder visualizar en tu hogar y en todo momento, a través de unas pequeñas cámaras de seguridad portátiles colocadas en las áreas de la casa donde se encuentre el cuidador.</p>    
+                    <p>Te damos la oportunidad de poder visualizar en tu hogar y en todo momento,<br>a través de unas pequeñas cámaras de seguridad portátiles colocadas en áreas estratégicas.</p>    
+                    <br>
+                    <img src="camara.jpg" alt="" >
                 </article>
             </section>
             <section>
@@ -74,17 +242,22 @@
                     <h2>¿Quieres trabajar con nosotros?</h2>
                     <br>
                     <p>
-                        Ofrece tus servicios a miles de familias que se inscriben cada semana. Registrate para comenzar nuestro proceso de selección.
+                        Ofrece tus servicios a miles de familias que se inscriben cada semana.<br>Registrate para comenzar nuestro proceso de selección.
                     </p>
+                    <br>
+                    <img src="imgCuidador.jpg" alt="">
                 </article>
             </section>
         </main>
        
         <footer>
             <hr>
+            <br>
             <h3>PREGUNTAS Y AYUDA</h3>
             <a href="mailto:info@canguroseguro.es">info@canguroseguro.es</a>
+            <br>
             <a href="tel:+34111111111">Llamanos: 111 111 111</a>
+            <br>
             <br>
             <h3>síguenos</h3>
             <br>
@@ -94,164 +267,5 @@
         </footer>
     </body>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Zen+Kurenaido&display=swap');
-
-        * {
-            padding: 0px;
-            margin: 0px;
-            background-color: transparent;
-            text-align: center;
-            font-family: 'Zen Kurenaido', sans-serif;
-            color: rgb(160, 160, 160);
-            -webkit-appearance:none;
-        }
-
-        body {
-            -webkit-appearance: none;
-            appearance: none;
-            -webkit-appearance: scrollbarbutton-up;
-        }
-        
-        img {
-            width: 100%;
-            height: auto;
-            max-width: 550px;
-            display:block;
-            margin:auto;
-            border-radius: 1vw;
-        }
-
-        h2 {
-            font-family: 'Oswald', sans-serif;
-        }
-
-        p {
-            text-align: justify;
-        }
-
-        article {
-            margin: 2vw;
-            border-radius: 1vw;
-            padding: 1vh;
-        }
-
-        /*NAV BAR*/
-        nav {
-            
-            background-color: #306E81;
-        }
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            
-        }
-
-        .derecha {
-            float: right;
-        }
-        
-        .izquierda {
-            float: left;
-        }
-
-
-        li a {
-            color: white;
-            display: block;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        li a:hover {
-            background-color: #C92D61;
-        }
-        /**/
-
-        li {
-            text-align: left;
-        }
-
-        a img {
-            height: 7vw;
-            width: auto;
-        }
-
-        @media screen and (max-width: 900px) {
-            img {
-                max-width: 400px;
-            }
-            .izquierda {
-                display: none;
-            }
-            nav {
-                font-size: 3vw;
-            }
-            h2 {
-                font-size: 5vw;
-            }
-            p{
-                font-size: 3vw;
-            }
-            .opciones{
-                font-size: 3vw;
-            }
-            a {
-                font-size: 3vw;
-            }
-        }  
-
-        @media screen and (max-width: 430px) {
-            img {
-                display: none;
-            }
-            .derecha {
-                float: none;
-            }
-            .izquierda {
-                display: none;
-            }
-            nav {
-                font-size: 15px;
-            }
-            h2 {
-                font-size: 7vw;
-            }
-            .opciones{
-                font-size: 4vw;
-            }
-            p{
-                font-size: 5vw;
-            }
-            a {
-                font-size: 20px;
-            }
-        }  
-
-        @media screen and (min-width: 901px) {
-            nav {
-                font-size: 25px;
-                position: -webkit-sticky;
-                position: sticky;
-                top: 0;
-                border-bottom: 2px solid rgb(216, 216, 216);
-                border-radius: 0px;
-            }
-            h2 {
-                font-size: 55px;
-            }
-            .opciones{
-                font-size: 25px;
-            }
-            p{
-                font-size: 30px;
-            }
-            a {
-                font-size: 20px;
-            }
-        }
-    </style>
+    
 </html>
