@@ -162,6 +162,21 @@
                 entradaTexto.textContent = "";
             }
         }
+
+        document.addEventListener('keydown', function(event) {
+            if(event.keyCode == 13) {
+                    if (entradaTexto.textContent.length > 0 ) {
+                    const postListRef = ref(database, conversacion);
+                    const newPostRef = push(postListRef);
+                    set(newPostRef, {
+                        autor: tipo,
+                        mensaje: entradaTexto.textContent,
+                        tiempo: Date.now()
+                    });
+                    entradaTexto.textContent = "";
+                }
+            }
+        });
         var scroll = document.getElementById("Mensajes");
         const commentsRef = ref(database, conversacion);
         onChildAdded(commentsRef, (data) => {
